@@ -2,6 +2,7 @@ package com.beginnner.gharaana.Service;
 
 import com.beginnner.gharaana.Entity.Customer;
 import com.beginnner.gharaana.Entity.User;
+import com.beginnner.gharaana.Entity.Worker;
 import com.beginnner.gharaana.Repo.CustomerRepository;
 import com.beginnner.gharaana.Repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,15 +29,20 @@ public class UserService {
         if(customer!=null){
             return false;
         }
-        Customer newCustomer =new Customer(signupRequest.name,signupRequest.email,signupRequest.phoneno,signupRequest.servicePack,signupRequest.location,signupRequest.password);
-       // User newUser=new User(signupRequest.name,signupRequest.email,signupRequest.phoneno,signupRequest.location,signupRequest.password);
-            saveCustomer(newCustomer);
+        Customer newCustomer =new Customer(signupRequest.name,signupRequest.email,signupRequest.password,signupRequest.phoneno,signupRequest.location,signupRequest.servicePack);
+        saveCustomer(newCustomer);
         return true;
     }
-    public void saveCustomer(Customer customer){
-          customerRepository.save(customer);
+    public void saveCustomer(Customer customer) {
+        customerRepository.save(customer);
+
     }
-   public void saveUser(User user){
-        userRepository.save(user);
-   }
+    public boolean isWorker(User user) {
+        Worker worker = (Worker) user;
+        if (worker != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

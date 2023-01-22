@@ -1,23 +1,20 @@
 package com.beginnner.gharaana.Entity;
-
 public class User {
-    public User() {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.location = location;
-        this.phoneno = phoneno;
-    }
-
     public String name;
     public String email;
     public String password;
-    public String location;
     public int phoneno;
+    Location location;
 
-    enum userType{
-        Worker,
-        Customer;
+    public User(String name, String email, String password, int phoneno,Location location) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phoneno = phoneno;
+        this.location=location;
     }
+
+
+
 
 }

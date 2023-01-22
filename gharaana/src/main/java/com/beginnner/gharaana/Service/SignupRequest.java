@@ -1,13 +1,17 @@
 package com.beginnner.gharaana.Service;
 
+import com.beginnner.gharaana.Entity.Expertise;
+import com.beginnner.gharaana.Entity.Location;
+import com.beginnner.gharaana.Entity.ServicePack;
+
 public class SignupRequest {
     public String email;
-    public String mail;
-
     public String password;
-    public String location;
     public String name;
     public int phoneno;
-    public String expertise;
-    public String servicePack;
+    Location location;
+    ServicePack servicePack;
+    Expertise expertise;
+
+
 }

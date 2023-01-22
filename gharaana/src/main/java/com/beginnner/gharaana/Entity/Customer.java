@@ -1,21 +1,14 @@
 package com.beginnner.gharaana.Entity;
 
-public class Customer{
-    public String servicePack;
+public class Customer extends User{
+    ServicePack servicePack;
 
-    public String name;
-    public String email;
-    public String password;
-    public String location;
-    public int phoneno;
-
-    public Customer(String name, String email, int phoneno, String servicePack, String location, String password) {
-
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.location = location;
-        this.phoneno = phoneno;
+    public Customer(String name, String email, String password,int phoneno,Location location,ServicePack servicePack) {
+        super(name,email,password,phoneno,location);
         this.servicePack=servicePack;
+
     }
+
+
+
 }

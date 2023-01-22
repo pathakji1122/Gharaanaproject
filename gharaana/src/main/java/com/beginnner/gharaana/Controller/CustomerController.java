@@ -16,24 +16,6 @@ import java.util.concurrent.Callable;
 public class CustomerController {
     @Autowired
     UserService userService;
-    @Autowired
-    Token token;
-    @Autowired
-    CustomerRepository customerRepository;
-@PostMapping(path = "login")
-    public LoginResponce login(@RequestBody LoginRequest loginRequest) {
-        String email = loginRequest.email;
-        String Token = token.generateToken(email);
-        Boolean login = userService.loginVerify(loginRequest);
-        if (login) {
-            LoginResponce loginResponce = new LoginResponce(Token);
-            return loginResponce;
-        } else {
-            String responce = "Wrong info";
-            LoginResponce loginResponce = new LoginResponce(responce);
-            return loginResponce;
-        }
-    }
 @PostMapping(path = "signup")
     public String signup(@RequestBody SignupRequest signupRequest) {
         Boolean signedup = userService.registerCustomer(signupRequest);
