@@ -1,6 +1,7 @@
 package com.beginnner.gharaana.Service;
 
 import com.beginnner.gharaana.Entity.Customer;
+import com.beginnner.gharaana.Entity.Location;
 import com.beginnner.gharaana.Entity.User;
 import com.beginnner.gharaana.Entity.Worker;
 import com.beginnner.gharaana.Repo.CustomerRepository;
@@ -44,5 +45,15 @@ public class UserService {
         } else {
             return false;
         }
+    }
+    public boolean currentLocation(SignupRequest signupRequest){
+        Location location=signupRequest.location;
+        Location locations[]=Location.values();
+        for(Location location1:locations){
+            if(location1.equals(location)){
+                return true;
+            }
+        }
+        return false;
     }
 }
