@@ -16,6 +16,8 @@ import java.util.concurrent.Callable;
 public class CustomerController {
     @Autowired
     UserService userService;
+    @Autowired
+    Auth auth;
 @PostMapping(path = "signup")
     public String signup(@RequestBody SignupRequest signupRequest) {
         Boolean signedup = userService.registerCustomer(signupRequest);
@@ -25,5 +27,11 @@ public class CustomerController {
             return "Customer exists";
         }
     }
+ @PostMapping(path = "order")
+ public OrderResponce order(@RequestBody OrderRequest orderRequest){
+    String token=orderRequest.token;
+    Boolean verified=Auth.
+ }
+
 }
 
