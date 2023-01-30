@@ -1,5 +1,6 @@
-package com.beginnner.gharaana.customer;
+package com.beginnner.gharaana.Repo;
 
+import com.beginnner.gharaana.Entity.Customer;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
