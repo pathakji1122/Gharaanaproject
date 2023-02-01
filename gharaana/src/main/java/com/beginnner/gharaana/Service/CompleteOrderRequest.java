@@ -1,6 +1,7 @@
 package com.beginnner.gharaana.Service;
 
-public class DeleteRequest {
-    public String email;
+public class CompleteOrderRequest {
     public String token;
+    public int otp;
+
 }
