@@ -36,9 +36,9 @@ public class UserService {
     }
     public boolean registerCustomer(SignupRequest signupRequest){
         String email= signupRequest.email;
-        String phoneno=signupRequest.phoneno;
+        String phoneNo=signupRequest.phoneno;
         Customer customer=customerRepository.findOneByEmail(email);
-        Customer customer1=customerRepository.findOneByPhoneno(phoneno);
+        Customer customer1=customerRepository.findOneByPhoneNo(phoneNo);
         if(customer!=null||customer1!=null){
             return false;
         }

@@ -9,7 +9,7 @@ import java.util.Optional;
 @Repository
 public interface CustomerRepository extends MongoRepository<Customer,String > {
     Customer findOneByEmail(String email);
-    Customer findOneByPhoneno(String phoneno);
+    Customer findOneByPhoneNo(String phoneNo);
     Customer save(Customer customer);
     Customer deleteByEmail(String email);
 }
