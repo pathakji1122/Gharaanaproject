@@ -1,5 +1,2 @@
-package com.beginnner.gharaana.Service;
-
-public class MyOrderReques {
-    public String token;
+package com.beginnner.gharaana.Service;public class MyOrderReques {
 }

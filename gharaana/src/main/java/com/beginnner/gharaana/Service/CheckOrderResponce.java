@@ -2,14 +2,9 @@ package com.beginnner.gharaana.Service;
 
 import com.beginnner.gharaana.Entity.Order;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CheckOrderResponce {
+public class ChceckOrderResponce {
+    public String responce;
     public List<Order> orderList;
-
-
-    public CheckOrderResponce(List<Order> orderList) {
-        this.orderList=orderList;
-    }
 }
