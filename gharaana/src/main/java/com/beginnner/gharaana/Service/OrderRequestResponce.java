@@ -1,2 +1,5 @@
-package com.beginnner.gharaana.Service;public class OrderRequestResponce {
+package com.beginnner.gharaana.Service;
+
+public class OrderRequestResponce {
+
 }

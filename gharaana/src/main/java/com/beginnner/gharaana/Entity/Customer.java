@@ -1,14 +1,17 @@
 package com.beginnner.gharaana.Entity;
 
-public class Customer extends User{
-    ServicePack servicePack;
 
-    public Customer(String name, String email, String password,int phoneno,Location location,ServicePack servicePack) {
-        super(name,email,password,phoneno,location);
-        this.servicePack=servicePack;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document("customer")
+public class Customer extends User {
+    public ServicePack servicePack;
+
+    public Customer(String name, String email, String password, String phoneno, Location location, ServicePack servicePack) {
+        super(name, email, password, phoneno, location);
+        this.servicePack = servicePack;
 
     }
-
 
 
 }

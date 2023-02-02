@@ -1,6 +1,6 @@
 package com.beginnner.gharaana.Service;
 
-public class CheckOrdersRequest {
-
+public class OrderStatusRequest {
     public String token;
+    public String orderId;
 }

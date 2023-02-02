@@ -1,14 +1,15 @@
 package com.beginnner.gharaana.Entity;
 
-import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-public class Worker extends User{
+@Document("worker")
+public class Worker extends User {
 
-public String price;
-Expertise expertise;
-    public Worker(String name, String email, String password, int phoneno, Location location, String price,Expertise expertise) {
-        super(name, email, password,phoneno,location);
-        this.price=price;
-        this.expertise=expertise;
+
+    public Expertise expertise;
+
+    public Worker(String name, String email, String password, String phoneno, Location location, Expertise expertise) {
+        super(name, email, password, phoneno, location);
+        this.expertise = expertise;
     }
 }

@@ -22,21 +22,16 @@ public class Auth {
     public boolean verifyToken(String token){
         String email=token.split("@@@@@GharanaUser")[0];
         String secret=token.split("@@@@@GharanaUser")[1];
-        Customer customer=customerRepository.findOneByEmail(email);
-        if (!secret.equals(SecretKey)) {
+        User user=userRepository.findOneByEmail(email);
+        if(user==null) {
             return false;
         }
-        if(customer==null) {
+        if (secret.equals(SecretKey)==false) {
             return false;
         }
         return true;
     }
-    public String orderIdByToken(String token){
-        String email=token.split("@@@@@GharanaUser^^^^^^^^^^^^^")[0];
-        Customer customer=customerRepository.findOneByEmail(email);
-        String orderId=email+"12345_1111_2_3_456789_11";
-        return orderId;
-    }
+
 
 
 

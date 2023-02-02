@@ -1,6 +1,7 @@
 package com.beginnner.gharaana.Service;
 
-public class CheckOrdersRequest {
-
+public class CompleteOrderRequest {
     public String token;
+    public int otp;
+
 }
