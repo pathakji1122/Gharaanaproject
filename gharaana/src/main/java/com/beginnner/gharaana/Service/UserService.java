@@ -17,13 +17,15 @@ public class UserService {
     CustomerRepository customerRepository;
     @Autowired
     WorkerRepository workerRepository;
-    public boolean userVerify(String email){
-        User user= userRepository.findOneByEmail(email);
-        if(user==null){
+
+    public boolean userVerify(String email) {
+        User user = userRepository.findOneByEmail(email);
+        if (user == null) {
             return false;
         }
         return true;
     }
+
     public boolean loginVerify(LoginRequest loginRequest) {
         String password = loginRequest.password;
         String email = loginRequest.email;
@@ -34,42 +36,47 @@ public class UserService {
             return false;
         }
     }
-    public boolean registerCustomer(SignupRequest signupRequest){
-        String email= signupRequest.email;
-        String phoneNo=signupRequest.phoneno;
-        Customer customer=customerRepository.findOneByEmail(email);
-        Customer customer1=customerRepository.findOneByPhoneNo(phoneNo);
-        if(customer!=null||customer1!=null){
+
+    public boolean registerCustomer(SignupRequest signupRequest) {
+        String email = signupRequest.email;
+        String phoneNo = signupRequest.phoneno;
+        Customer customer = customerRepository.findOneByEmail(email);
+        Customer customer1 = customerRepository.findOneByPhoneNo(phoneNo);
+        if (customer != null || customer1 != null) {
             return false;
         }
-        Customer newCustomer =new Customer(signupRequest.name,signupRequest.email,signupRequest.password,signupRequest.phoneno,signupRequest.location,signupRequest.servicePack);
-        User user=new User(signupRequest.name,signupRequest.email,signupRequest.password,signupRequest.phoneno,signupRequest.location);
+        Customer newCustomer = new Customer(signupRequest.name, signupRequest.email, signupRequest.password, signupRequest.phoneno, signupRequest.location, signupRequest.servicePack);
+        User user = new User(signupRequest.name, signupRequest.email, signupRequest.password, signupRequest.phoneno, signupRequest.location);
         userRepository.save(user);
         saveCustomer(newCustomer);
         return true;
     }
+
     public void saveCustomer(Customer customer) {
         customerRepository.save(customer);
 
     }
-    public boolean registerWorker(SignupRequest signupRequest){
-        String email= signupRequest.email;
-        Worker worker=workerRepository.findOneByEmail(email);
-        if(worker!=null){
+
+    public boolean registerWorker(SignupRequest signupRequest) {
+        String email = signupRequest.email;
+        Worker worker = workerRepository.findOneByEmail(email);
+        if (worker != null) {
             return false;
         }
 
-        Worker newWorker =new Worker(signupRequest.name,signupRequest.email,signupRequest.password,signupRequest.phoneno,signupRequest.location,signupRequest.expertise);
+        Worker newWorker = new Worker(signupRequest.name, signupRequest.email, signupRequest.password, signupRequest.phoneno, signupRequest.location, signupRequest.expertise);
         saveWorker(newWorker);
-        User user=new User(signupRequest.name,signupRequest.email,signupRequest.password,signupRequest.phoneno,signupRequest.location);
+        User user = new User(signupRequest.name, signupRequest.email, signupRequest.password, signupRequest.phoneno, signupRequest.location);
         userRepository.save(user);
         return true;
     }
+
     public void saveWorker(Worker worker) {
         workerRepository.save(worker);
     }
-    public boolean isWorker(User user) {
-        Worker worker = workerRepository.findOneByEmail(user.email);
+
+    public boolean isWorker(String email) {
+        Worker worker = workerRepository.findOneByEmail(email);
         if (worker != null) {
             return true;
         } else {
@@ -78,35 +85,45 @@ public class UserService {
     }
 
 
-    public String getCustomerLocations(){
-        String locations="";
+    public String getCustomerLocations() {
+        String locations = "";
         for (Location locate : Location.values()) {
-            locations=locations+" "+locate.toString();
+            locations = locations + " " + locate.toString();
         }
         return locations;
     }
-    public boolean customerVeirfication(String email){
-        Customer customer=customerRepository.findOneByEmail(email);
-        if(customer!=null){
+    public String getCustomerExpertise() {
+        String expertise = "";
+        for (Expertise expertises : Expertise.values()) {
+            expertise = expertise + " " + expertises.toString();
+        }
+        return "We Are Providing Now"+expertise;
+    }
+
+    public boolean customerVeirfication(String email) {
+        Customer customer = customerRepository.findOneByEmail(email);
+        if (customer != null) {
             return true;
         }
         return false;
     }
 
-    public Customer getCustomerByToken(String token){
-        String email=token.split("@@@@@GharanaUser")[0];
-        Customer customer=customerRepository.findOneByEmail(email);
+    public Customer getCustomerByToken(String token) {
+        String email = token.split("@@@@@GharanaUser")[0];
+        Customer customer = customerRepository.findOneByEmail(email);
         return customer;
     }
-    public Worker getWorkerByToken(String token){
-        String email=token.split("@@@@@GharanaUser")[0];
-        Worker worker=workerRepository.findOneByEmail(email);
+
+    public Worker getWorkerByToken(String token) {
+        String email = token.split("@@@@@GharanaUser")[0];
+        Worker worker = workerRepository.findOneByEmail(email);
         return worker;
     }
-   public void deleteCustomer(String email){
+
+    public void deleteCustomer(String email) {
         customerRepository.deleteByEmail(email);
         userRepository.deleteByEmail(email);
-   }
-
     }
+
+}
 

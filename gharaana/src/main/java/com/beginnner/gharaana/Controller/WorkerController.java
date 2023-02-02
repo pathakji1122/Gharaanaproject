@@ -44,21 +44,10 @@ public class WorkerController {
             }
         }
         Boolean accountCreated = false;
-        String responce = "Gharaana Not In Your Location" + userService.getCustomerLocations();
+        String responce = "Gharaana Not In Your Location"+"We Are Present in" + userService.getCustomerLocations();
         SignupResponce signupResponce = new SignupResponce(responce, accountCreated);
 
         return signupResponce;
-    }
-
-    @PostMapping(path = "orders")
-    public CheckOrderResponce checkOrderResponce(@RequestBody CheckOrdersRequest checkOrdersRequest) {
-        Boolean verify = auth.verifyToken(checkOrdersRequest.token);
-        if (verify) {
-            List<Order> orderList = orderService.checkOrders(checkOrdersRequest);
-            CheckOrderResponce checkOrderResponce = new CheckOrderResponce(orderList);
-            return checkOrderResponce;
-        }
-        return null;
     }
 
     @PostMapping(path = "acceptorder")
@@ -71,5 +60,15 @@ public class WorkerController {
         }
         return null;
 
+    }
+    @PostMapping(path = "checkorder")
+    public CheckOrderResponce checkOrderResponce(@RequestBody CheckOrdersRequest checkOrdersRequest){
+        Boolean verify = auth.verifyToken(checkOrdersRequest.token);
+        if (verify){
+            List<Order>orderList=orderService.checkOrders(checkOrdersRequest);
+            return new CheckOrderResponce("Your Orders",orderList);
+
+        }
+        return new CheckOrderResponce("Access Denied",null);
     }
 }

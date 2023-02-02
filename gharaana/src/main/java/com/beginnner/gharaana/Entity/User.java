@@ -12,7 +12,7 @@ public class User {
     @Email
     public String email;
     public String password;
-    @Size(min=10,max =10,message = "Enter Correct no Please")
+    @Size(min = 10, max = 10, message = "Enter Correct no Please")
     public String phoneNo;
     public Location location;
 

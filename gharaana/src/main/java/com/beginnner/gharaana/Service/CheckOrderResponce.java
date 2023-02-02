@@ -7,7 +7,8 @@ public class CheckOrderResponce {
     public String responce;
     public List<Order> orderList;
 
-    public CheckOrderResponce(List<Order> orderList) {
+    public CheckOrderResponce(String responce,List<Order> orderList) {
+        this.responce=responce;
         this.orderList=orderList;
     }
 }

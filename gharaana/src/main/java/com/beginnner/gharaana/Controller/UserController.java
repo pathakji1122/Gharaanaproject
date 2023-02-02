@@ -18,24 +18,21 @@ public class UserController {
     @Autowired
     Auth token;
     @Autowired
-    UserRepository userRepository;
-    @Autowired
     UserService userService;
 
     @PostMapping("login")
     public LoginResponce login(@RequestBody LoginRequest loginRequest) {
-        Boolean verification=userService.userVerify(loginRequest.email);
-        if(verification==false){
-            String responce = "No User With this mail";
+        Boolean verification = userService.userVerify(loginRequest.email);
+        if (verification == false) {
+            String responce = "No User With this email";
             LoginResponce loginResponce = new LoginResponce(responce);
             return loginResponce;
         }
         String email = loginRequest.email;
-        User user = userRepository.findOneByEmail(email);
         String Token = token.generateToken(email);
         Boolean login = userService.loginVerify(loginRequest);
         if (login) {
-            Boolean worker = userService.isWorker(user);
+            Boolean worker = userService.isWorker(email);
             LoginResponce loginResponce = new LoginResponce(Token, worker);
             return loginResponce;
         } else {

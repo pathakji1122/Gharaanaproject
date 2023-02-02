@@ -6,6 +6,6 @@ public class AcceptOrderResponce {
     public Order order;
 
     public AcceptOrderResponce(Order order) {
-        this.order=order;
+        this.order = order;
     }
 }
