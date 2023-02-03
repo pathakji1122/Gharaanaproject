@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OrderRepository extends MongoRepository<Order,String> {
-Order save(Order order);
+public interface OrderRepository extends MongoRepository<Order, String> {
+    Order save(Order order);
 
     Order findByOrderId(String orderId);
 

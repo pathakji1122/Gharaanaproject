@@ -49,7 +49,7 @@ public class CustomerController {
     @DeleteMapping("/delete")
     public DeleteCustomerResponce deletecustomer(@RequestBody DeleteRequest deleteRequest) {
         String token = deleteRequest.token;
-        Boolean verified = auth.verifyToken(token);
+        Boolean verified = auth.verifyCustomerToken(token);
         if (verified) {
             Customer customer = userService.getCustomerByToken(deleteRequest.token);
             DeleteCustomerResponce deleteCustomerResponce=new DeleteCustomerResponce(true,"Successsfully Deleted");
@@ -63,7 +63,7 @@ public class CustomerController {
     @PostMapping(path = "myorder")
     public MyOrderResponce myOrder(@RequestBody MyOrderReques myOrderReques) {
         String token = myOrderReques.token;
-        Boolean verify = auth.verifyToken(myOrderReques.token);
+        Boolean verify = auth.verifyWorkerToken(myOrderReques.token);
         if (verify) {
             List<Order> orderList = orderService.myOrder(myOrderReques);
             MyOrderResponce myOrderResponce = new MyOrderResponce(true,"Your Orders Are",orderList);
@@ -76,7 +76,7 @@ public class CustomerController {
     @PostMapping(path = "orderstatus")
     public OrderStatusResponce orderStatus(@RequestBody OrderStatusRequest orderStatusRequest) {
         String token = orderStatusRequest.token;
-        Boolean verify = auth.verifyToken(token);
+        Boolean verify = auth.verifyCustomerToken(token);
         if (verify) {
             Order order = orderService.orderStatus(orderStatusRequest);
             if (order != null){
@@ -93,16 +93,16 @@ public class CustomerController {
     @PostMapping(path = "placeorder")
     public OrderResponce order(@RequestBody OrderRequest orderRequest) {
         String token = orderRequest.token;
-        Boolean verified = auth.verifyToken(token);
+        Boolean verified = auth.verifyCustomerToken(token);
         if (verified) {
             Boolean experiseVerify=orderService.expertiseAvail(orderRequest.expertise.toString());
             if(experiseVerify==false){
-                String respomce= userService.getCustomerExpertise();
-                return new OrderResponce(false,null,respomce);
+                String responce= userService.getCustomerExpertise();
+                return new OrderResponce(false,null,responce);
             }
             String orderId = orderService.createOrderId(orderRequest);
             orderService.saveOrder(orderRequest, orderId);
-            OrderResponce orderResponce = new OrderResponce(true,"orderId","Order Successful");
+            OrderResponce orderResponce = new OrderResponce(true,orderId,"Order Successful");
             return orderResponce;
         }
         OrderResponce orderResponce = new OrderResponce(false, null,"Access Denied");

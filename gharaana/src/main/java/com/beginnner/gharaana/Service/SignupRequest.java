@@ -10,7 +10,7 @@ public class SignupRequest {
     public String email;
     public String password;
     public String name;
-    public String phoneno;
+    public String phonenNo;
    public Location location;
    public ServicePack servicePack;
    public Expertise expertise;

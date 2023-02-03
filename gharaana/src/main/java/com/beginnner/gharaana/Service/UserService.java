@@ -3,7 +3,6 @@ package com.beginnner.gharaana.Service;
 import com.beginnner.gharaana.Entity.*;
 import com.beginnner.gharaana.Repo.CustomerRepository;
 import com.beginnner.gharaana.Repo.OrderRepository;
-import com.beginnner.gharaana.Repo.UserRepository;
 import com.beginnner.gharaana.Repo.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,26 +10,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserService {
     @Autowired
     OrderRepository orderRepository;
-    @Autowired
-    UserRepository userRepository;
+
     @Autowired
     CustomerRepository customerRepository;
     @Autowired
     WorkerRepository workerRepository;
 
-    public boolean userVerify(String email) {
-        User user = userRepository.findOneByEmail(email);
-        if (user == null) {
-            return false;
-        }
-        return true;
-    }
 
-    public boolean loginVerify(LoginRequest loginRequest) {
+    public boolean loginCustomerVerify(LoginRequest loginRequest) {
         String password = loginRequest.password;
         String email = loginRequest.email;
-        User user = userRepository.findOneByEmail(email);
-        if (user.password.equals(password)) {
+        Customer customer = customerRepository.findOneByEmail(email);
+        if (customer.password.equals(password)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public boolean loginWorkerVerify(LoginRequest loginRequest) {
+        String password = loginRequest.password;
+        String email = loginRequest.email;
+        Worker worker = workerRepository.findOneByEmail(email);
+        if (worker.password.equals(password)) {
             return true;
         } else {
             return false;
@@ -39,15 +40,14 @@ public class UserService {
 
     public boolean registerCustomer(SignupRequest signupRequest) {
         String email = signupRequest.email;
-        String phoneNo = signupRequest.phoneno;
+        String phoneNo = signupRequest.phonenNo;
         Customer customer = customerRepository.findOneByEmail(email);
         Customer customer1 = customerRepository.findOneByPhoneNo(phoneNo);
         if (customer != null || customer1 != null) {
             return false;
         }
-        Customer newCustomer = new Customer(signupRequest.name, signupRequest.email, signupRequest.password, signupRequest.phoneno, signupRequest.location, signupRequest.servicePack);
-        User user = new User(signupRequest.name, signupRequest.email, signupRequest.password, signupRequest.phoneno, signupRequest.location);
-        userRepository.save(user);
+        Customer newCustomer = new Customer(signupRequest.name, signupRequest.email, signupRequest.password, signupRequest.phonenNo, signupRequest.location, signupRequest.servicePack);
+        User user = new User(signupRequest.name, signupRequest.email, signupRequest.password, signupRequest.phonenNo, signupRequest.location);
         saveCustomer(newCustomer);
         return true;
     }
@@ -64,10 +64,9 @@ public class UserService {
             return false;
         }
 
-        Worker newWorker = new Worker(signupRequest.name, signupRequest.email, signupRequest.password, signupRequest.phoneno, signupRequest.location, signupRequest.expertise);
+        Worker newWorker = new Worker(signupRequest.name, signupRequest.email, signupRequest.password, signupRequest.phonenNo, signupRequest.location, signupRequest.expertise);
         saveWorker(newWorker);
-        User user = new User(signupRequest.name, signupRequest.email, signupRequest.password, signupRequest.phoneno, signupRequest.location);
-        userRepository.save(user);
+        User user = new User(signupRequest.name, signupRequest.email, signupRequest.password, signupRequest.phonenNo, signupRequest.location);
         return true;
     }
 
@@ -78,6 +77,14 @@ public class UserService {
     public boolean isWorker(String email) {
         Worker worker = workerRepository.findOneByEmail(email);
         if (worker != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public boolean isCustomer(String email) {
+        Customer customer= customerRepository.findOneByEmail(email);
+        if (customer != null) {
             return true;
         } else {
             return false;
@@ -122,7 +129,6 @@ public class UserService {
 
     public void deleteCustomer(String email) {
         customerRepository.deleteByEmail(email);
-        userRepository.deleteByEmail(email);
     }
 
 }

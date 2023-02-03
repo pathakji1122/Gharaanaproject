@@ -2,6 +2,7 @@ package com.beginnner.gharaana.Controller;
 
 import com.beginnner.gharaana.Entity.Location;
 import com.beginnner.gharaana.Entity.Order;
+import com.beginnner.gharaana.Entity.OrderStatus;
 import com.beginnner.gharaana.Entity.Worker;
 import com.beginnner.gharaana.Repo.OrderRepository;
 import com.beginnner.gharaana.Service.*;
@@ -52,22 +53,24 @@ public class WorkerController {
 
     @PostMapping(path = "acceptorder")
     public AcceptOrderResponce acceptOrder(@RequestBody AcceptOrderRequest acceptOrderRequest) {
-        Boolean verify = auth.verifyToken(acceptOrderRequest.token);
+        Boolean verify = auth.verifyWorkerToken(acceptOrderRequest.token);
         if (verify) {
             Order order = orderService.acceptOrder(acceptOrderRequest);
-            AcceptOrderResponce acceptOrderResponce = new AcceptOrderResponce(order);
+            if(order.orderStatus.equals(OrderStatus.ACCEPTED)){
+                return new AcceptOrderResponce("Accepted Order",null,false);
+            }
+            AcceptOrderResponce acceptOrderResponce = new AcceptOrderResponce("Your Order",order,true);
             return acceptOrderResponce;
         }
-        return null;
+        return new AcceptOrderResponce("Access Denied",null,false);
 
     }
     @PostMapping(path = "checkorder")
     public CheckOrderResponce checkOrderResponce(@RequestBody CheckOrdersRequest checkOrdersRequest){
-        Boolean verify = auth.verifyToken(checkOrdersRequest.token);
+        Boolean verify = auth.verifyWorkerToken(checkOrdersRequest.token);
         if (verify){
             List<Order>orderList=orderService.checkOrders(checkOrdersRequest);
             return new CheckOrderResponce("Your Orders",orderList);
-
         }
         return new CheckOrderResponce("Access Denied",null);
     }

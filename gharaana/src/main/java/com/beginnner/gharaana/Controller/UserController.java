@@ -1,7 +1,5 @@
 package com.beginnner.gharaana.Controller;
 
-import com.beginnner.gharaana.Entity.User;
-import com.beginnner.gharaana.Repo.UserRepository;
 import com.beginnner.gharaana.Service.LoginRequest;
 import com.beginnner.gharaana.Service.LoginResponce;
 import com.beginnner.gharaana.Service.Auth;
@@ -22,25 +20,36 @@ public class UserController {
 
     @PostMapping("login")
     public LoginResponce login(@RequestBody LoginRequest loginRequest) {
-        Boolean verification = userService.userVerify(loginRequest.email);
-        if (verification == false) {
-            String responce = "No User With this email";
-            LoginResponce loginResponce = new LoginResponce(responce);
+        Boolean WorkerVification = userService.isWorker(loginRequest.email);
+        Boolean CustomerVerification = userService.isCustomer(loginRequest.email);
+        if (WorkerVification == false && CustomerVerification==false) {
+            LoginResponce loginResponce = new LoginResponce(null, false, "Login Failed");
             return loginResponce;
         }
-        String email = loginRequest.email;
-        String Token = token.generateToken(email);
-        Boolean login = userService.loginVerify(loginRequest);
-        if (login) {
-            Boolean worker = userService.isWorker(email);
-            LoginResponce loginResponce = new LoginResponce(Token, worker);
-            return loginResponce;
-        } else {
-            String responce = "Wrong info";
-            LoginResponce loginResponce = new LoginResponce(responce);
-            return loginResponce;
+        if (CustomerVerification == true) {
+            String email = loginRequest.email;
+            String Token = token.generateToken(email);
+            Boolean login = userService.loginCustomerVerify(loginRequest);
+            if (login) {
+                Boolean worker = userService.isWorker(email);
+                LoginResponce loginResponce = new LoginResponce(Token, false, "Logged in");
+                return loginResponce;
+            } else {
+                String responce = "Wrong info";
+                LoginResponce loginResponce = new LoginResponce(null, false, responce);
+                return loginResponce;
+            }
         }
+            String workerEmail = loginRequest.email;
+            String workerToken = token.generateToken(workerEmail);
+            Boolean workerLogin = userService.loginWorkerVerify(loginRequest);
+            if (workerLogin) {
+                LoginResponce workerLoginResponce = new LoginResponce(workerToken, true, "Logged in");
+                return workerLoginResponce;
+            }
+            LoginResponce wrongLoginResponce = new LoginResponce(null, false, "Wrong info");
+            return wrongLoginResponce;
 
+
+        }
     }
-
-}

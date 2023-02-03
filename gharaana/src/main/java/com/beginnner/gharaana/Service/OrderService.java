@@ -53,7 +53,7 @@ public class OrderService {
 
     public Order orderStatus(OrderStatusRequest orderStatusRequest) {
         Customer customer = userService.getCustomerByToken(orderStatusRequest.token);
-        Order order = orderRepository.findByOrderId(orderStatusRequest.orderId);
+        Order order = orderRepository.findByOrderId(orderStatusRequest.OrderId);
         if (order.email.equals(customer.email) == false || order == null) {
             return null;
         }

@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Customer extends User {
     public ServicePack servicePack;
 
-    public Customer(String name, String email, String password, String phoneno, Location location, ServicePack servicePack) {
-        super(name, email, password, phoneno, location);
+    public Customer(String name, String email, String password, String phoneNo, Location location, ServicePack servicePack) {
+        super(name, email, password,phoneNo, location);
         this.servicePack = servicePack;
 
     }
