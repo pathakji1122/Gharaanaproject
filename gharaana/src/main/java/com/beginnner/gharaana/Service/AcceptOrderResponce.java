@@ -4,8 +4,12 @@ import com.beginnner.gharaana.Entity.Order;
 
 public class AcceptOrderResponce {
     public Order order;
+    public String  responce;
+    public Boolean status;
 
-    public AcceptOrderResponce(Order order) {
+    public AcceptOrderResponce(String responce,Order order,Boolean status) {
+        this.responce=responce;
         this.order = order;
+        this.status=status;
     }
 }
