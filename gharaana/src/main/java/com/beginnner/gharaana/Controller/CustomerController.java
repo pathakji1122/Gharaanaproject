@@ -23,13 +23,13 @@ public class CustomerController {
     Auth auth;
 
     @PostMapping(path = "signup")
-    public SignupResponce signup(@RequestBody SignupRequest signupRequest) {
-        Location locationverify = Location.getLocationFromCode(valueOf(signupRequest.location));
+    public SignupResponce signup(@RequestBody CustomerSignupRequest customerSignupRequest) {
+        Location locationverify = Location.getLocationFromCode(valueOf(customerSignupRequest.location));
         if (locationverify != null) {
-            Boolean signedup = userService.registerCustomer(signupRequest);
+            Boolean signedup = userService.registerCustomer(customerSignupRequest);
             if (signedup == true) {
                 Boolean accountCreated = true;
-                String responce = "Welcome To Gharaana " + signupRequest.name;
+                String responce = "Welcome To Gharaana " + customerSignupRequest.name;
                 SignupResponce signupResponce = new SignupResponce(responce, accountCreated);
                 return signupResponce;
             } else if (signedup == false) {
@@ -40,7 +40,7 @@ public class CustomerController {
             }
         }
         Boolean accountCreated = false;
-        String responce = "Gharaana Not At Your Location" +"We Are Preesent in "+ userService.getCustomerLocations();
+        String responce = "Gharaana Not At Your Location " +"We Are Preesent in "+ userService.getCustomerLocations();
         SignupResponce signupResponce = new SignupResponce(responce, accountCreated);
 
         return signupResponce;
@@ -52,6 +52,7 @@ public class CustomerController {
         Boolean verified = auth.verifyCustomerToken(token);
         if (verified) {
             Customer customer = userService.getCustomerByToken(deleteRequest.token);
+            userService.deleteCustomer(customer.email);
             DeleteCustomerResponce deleteCustomerResponce=new DeleteCustomerResponce(true,"Successsfully Deleted");
             return deleteCustomerResponce;
         }
@@ -95,8 +96,8 @@ public class CustomerController {
         String token = orderRequest.token;
         Boolean verified = auth.verifyCustomerToken(token);
         if (verified) {
-            Boolean experiseVerify=orderService.expertiseAvail(orderRequest.expertise.toString());
-            if(experiseVerify==false){
+            Expertise expertise=Expertise.checkExpertise(valueOf(orderRequest.expertise));
+            if(expertise ==null){
                 String responce= userService.getCustomerExpertise();
                 return new OrderResponce(false,null,responce);
             }

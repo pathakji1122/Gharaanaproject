@@ -3,8 +3,6 @@ package com.beginnner.gharaana.Controller;
 import com.beginnner.gharaana.Entity.Location;
 import com.beginnner.gharaana.Entity.Order;
 import com.beginnner.gharaana.Entity.OrderStatus;
-import com.beginnner.gharaana.Entity.Worker;
-import com.beginnner.gharaana.Repo.OrderRepository;
 import com.beginnner.gharaana.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,13 +26,13 @@ public class WorkerController {
     OrderService orderService;
 
     @PostMapping(path = "signup")
-    public SignupResponce signup(@RequestBody SignupRequest signupRequest) {
-        Location locationverify = Location.getLocationFromCode(valueOf(signupRequest.location));
+    public SignupResponce signup(@RequestBody WorkerSignupRequest workerSignupRequest) {
+        Location locationverify = Location.getLocationFromCode(valueOf(workerSignupRequest.location));
         if (locationverify != null) {
-            Boolean signedup = userService.registerWorker(signupRequest);
+            Boolean signedup = userService.registerWorker(workerSignupRequest);
             if (signedup == true) {
                 Boolean accountCreated = true;
-                String responce = "Welcome To Gharaana " + signupRequest.name;
+                String responce = "Welcome To Gharaana " + workerSignupRequest.name;
                 SignupResponce signupResponce = new SignupResponce(responce, accountCreated);
                 return signupResponce;
             } else if (signedup == false) {
