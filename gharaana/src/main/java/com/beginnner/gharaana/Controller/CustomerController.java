@@ -1,9 +1,6 @@
 package com.beginnner.gharaana.Controller;
 
-import com.beginnner.gharaana.Entity.Customer;
-import com.beginnner.gharaana.Entity.Expertise;
-import com.beginnner.gharaana.Entity.Location;
-import com.beginnner.gharaana.Entity.Order;
+import com.beginnner.gharaana.Entity.*;
 import com.beginnner.gharaana.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +37,7 @@ public class CustomerController {
             }
         }
         Boolean accountCreated = false;
-        String responce = "Gharaana Not At Your Location " +"We Are Preesent in "+ userService.getCustomerLocations();
+        String responce = "Gharaana Not At Your Location " + "We Are Preesent in " + userService.getCustomerLocations();
         SignupResponce signupResponce = new SignupResponce(responce, accountCreated);
 
         return signupResponce;
@@ -53,10 +50,10 @@ public class CustomerController {
         if (verified) {
             Customer customer = userService.getCustomerByToken(deleteRequest.token);
             userService.deleteCustomer(customer.email);
-            DeleteCustomerResponce deleteCustomerResponce=new DeleteCustomerResponce(true,"Successsfully Deleted");
+            DeleteCustomerResponce deleteCustomerResponce = new DeleteCustomerResponce(true, "Successsfully Deleted");
             return deleteCustomerResponce;
         }
-        DeleteCustomerResponce deleteCustomerResponce=new DeleteCustomerResponce(false,"No Customer With This Email");
+        DeleteCustomerResponce deleteCustomerResponce = new DeleteCustomerResponce(false, "No Customer With This Email");
         return deleteCustomerResponce;
 
     }
@@ -64,13 +61,13 @@ public class CustomerController {
     @PostMapping(path = "myorder")
     public MyOrderResponce myOrder(@RequestBody MyOrderReques myOrderReques) {
         String token = myOrderReques.token;
-        Boolean verify = auth.verifyWorkerToken(myOrderReques.token);
+        Boolean verify = auth.verifyCustomerToken(myOrderReques.token);
         if (verify) {
             List<Order> orderList = orderService.myOrder(myOrderReques);
-            MyOrderResponce myOrderResponce = new MyOrderResponce(true,"Your Orders Are",orderList);
+            MyOrderResponce myOrderResponce = new MyOrderResponce(true, "Your Orders Are", orderList);
             return myOrderResponce;
         }
-        return new MyOrderResponce(false,"Cant Proceed",null);
+        return new MyOrderResponce(false, "Cant Proceed", null);
 
     }
 
@@ -80,15 +77,14 @@ public class CustomerController {
         Boolean verify = auth.verifyCustomerToken(token);
         if (verify) {
             Order order = orderService.orderStatus(orderStatusRequest);
-            if (order != null){
-                OrderStatusResponce orderStatusResponce = new OrderStatusResponce(true,"Your Order Status is", order);
-            return orderStatusResponce;
-        }
-            else{
-                return new OrderStatusResponce(false,"Enter Correct OrderId",null);
+            if (order != null) {
+                OrderStatusResponce orderStatusResponce = new OrderStatusResponce(true, "Your Order Status is", order);
+                return orderStatusResponce;
+            } else {
+                return new OrderStatusResponce(false, "Enter Correct OrderId", null);
             }
         }
-        return new OrderStatusResponce(false,"Access Denied",null);
+        return new OrderStatusResponce(false, "Access Denied", null);
     }
 
     @PostMapping(path = "placeorder")
@@ -96,18 +92,30 @@ public class CustomerController {
         String token = orderRequest.token;
         Boolean verified = auth.verifyCustomerToken(token);
         if (verified) {
-            Expertise expertise=Expertise.checkExpertise(valueOf(orderRequest.expertise));
-            if(expertise ==null){
-                String responce= userService.getCustomerExpertise();
-                return new OrderResponce(false,null,responce);
+            Expertise expertise = Expertise.checkExpertise(valueOf(orderRequest.expertise));
+            if (expertise == null) {
+                String responce = userService.getCustomerExpertise();
+                return new OrderResponce(false, null, responce);
             }
             String orderId = orderService.createOrderId(orderRequest);
             orderService.saveOrder(orderRequest, orderId);
-            OrderResponce orderResponce = new OrderResponce(true,orderId,"Order Successful");
+            OrderResponce orderResponce = new OrderResponce(true, orderId, "Order Successful");
             return orderResponce;
         }
-        OrderResponce orderResponce = new OrderResponce(false, null,"Access Denied");
+        OrderResponce orderResponce = new OrderResponce(false, null, "Access Denied");
         return orderResponce;
+    }
+
+    @PostMapping(path = "getotp")
+    public GetOtpResponce getOtp(@RequestBody GetOtpRequest getOtpRequest) {
+        String token = getOtpRequest.token;
+        Boolean verified = auth.verifyCustomerToken(token);
+        if (verified) {
+            Otp newOtp = orderService.getOtp(getOtpRequest);
+            return new GetOtpResponce(newOtp.otp, "Your Otp is", true);
+        }
+        return new GetOtpResponce(null, "Access Denied", false);
+
     }
 
 }

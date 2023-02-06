@@ -5,6 +5,7 @@ import com.beginnner.gharaana.Entity.Order;
 import com.beginnner.gharaana.Entity.OrderStatus;
 import com.beginnner.gharaana.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,8 +43,9 @@ public class WorkerController {
                 return signupResponce;
             }
         }
+
         Boolean accountCreated = false;
-        String responce = "Gharaana Not In Your Location"+"We Are Present in" + userService.getCustomerLocations();
+        String responce = "Gharaana Not In Your Location" + "We Are Present in" + userService.getCustomerLocations();
         SignupResponce signupResponce = new SignupResponce(responce, accountCreated);
 
         return signupResponce;
@@ -53,23 +55,58 @@ public class WorkerController {
     public AcceptOrderResponce acceptOrder(@RequestBody AcceptOrderRequest acceptOrderRequest) {
         Boolean verify = auth.verifyWorkerToken(acceptOrderRequest.token);
         if (verify) {
-            Order order = orderService.acceptOrder(acceptOrderRequest);
-            if(order.orderStatus.equals(OrderStatus.ACCEPTED)){
-                return new AcceptOrderResponce("Accepted Order",null,false);
+            Order orderCheck = orderService.getOrderByOrderId(acceptOrderRequest.orderId);
+            if (orderCheck.orderStatus.equals(OrderStatus.NOT_ACCEPTED)) {
+                Order order = orderService.acceptOrder(acceptOrderRequest);
+                orderService.saveOtp(acceptOrderRequest.orderId);
+                return new AcceptOrderResponce("Your Order id", order, true);
+            } else {
+                AcceptOrderResponce acceptOrderResponce = new AcceptOrderResponce("Select Other Order ", null, false);
+
+                return acceptOrderResponce;
             }
-            AcceptOrderResponce acceptOrderResponce = new AcceptOrderResponce("Your Order",order,true);
-            return acceptOrderResponce;
         }
-        return new AcceptOrderResponce("Access Denied",null,false);
+        return new AcceptOrderResponce("Access Denied", null, false);
 
     }
+
+
     @PostMapping(path = "checkorder")
-    public CheckOrderResponce checkOrderResponce(@RequestBody CheckOrdersRequest checkOrdersRequest){
+    public CheckOrderResponce checkOrderResponce(@RequestBody CheckOrdersRequest checkOrdersRequest) {
         Boolean verify = auth.verifyWorkerToken(checkOrdersRequest.token);
-        if (verify){
-            List<Order>orderList=orderService.checkOrders(checkOrdersRequest);
-            return new CheckOrderResponce("Your Orders",orderList);
+        if (verify) {
+            List<Order> orderList = orderService.checkOrders(checkOrdersRequest);
+            return new CheckOrderResponce("Your Orders", orderList);
         }
-        return new CheckOrderResponce("Access Denied",null);
+        return new CheckOrderResponce("Access Denied", null);
+    }
+
+    @PostMapping(path = "startorder")
+    public StartOrderResponce startOrderResponce(@RequestBody StartOrderRequest startOrderRequest) {
+        Boolean verify = auth.verifyWorkerToken(startOrderRequest.token);
+        if (verify) {
+            Order order = orderService.startOrder(startOrderRequest);
+            return new StartOrderResponce("Order Started", true, order);
+        }
+
+        return new StartOrderResponce("Access Denied", false, null);
+    }
+
+    @PostMapping(path = "completeorder")
+    public CompleteOrderResponce completeOrderResponce(@RequestBody CompleteOrderRequest completeOrderRequest) {
+        Boolean verify = auth.verifyWorkerToken(completeOrderRequest.token);
+        if (verify) {
+            Boolean otpVerify = orderService.verifyOtp(completeOrderRequest);
+            if (otpVerify) {
+                orderService.orderComplete(completeOrderRequest);
+                return new CompleteOrderResponce("Order Completed", true);
+            } else {
+                orderService.saveOtp(completeOrderRequest.orderId);
+                return new CompleteOrderResponce("Enter New Otp", false);
+
+            }
+        }
+        return new CompleteOrderResponce("Access Denied", false);
+
     }
 }
