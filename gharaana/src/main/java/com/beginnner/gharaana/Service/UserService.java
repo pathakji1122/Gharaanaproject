@@ -6,6 +6,10 @@ import com.beginnner.gharaana.Repo.OrderRepository;
 import com.beginnner.gharaana.Repo.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @org.springframework.stereotype.Service
 public class UserService {
     @Autowired
@@ -27,6 +31,7 @@ public class UserService {
             return false;
         }
     }
+
     public boolean loginWorkerVerify(LoginRequest loginRequest) {
         String password = loginRequest.password;
         String email = loginRequest.email;
@@ -80,8 +85,9 @@ public class UserService {
             return false;
         }
     }
+
     public boolean isCustomer(String email) {
-        Customer customer= customerRepository.findOneByEmail(email);
+        Customer customer = customerRepository.findOneByEmail(email);
         if (customer != null) {
             return true;
         } else {
@@ -97,12 +103,13 @@ public class UserService {
         }
         return locations;
     }
+
     public String getCustomerExpertise() {
         String expertise = "";
         for (Expertise expertises : Expertise.values()) {
             expertise = expertise + " " + expertises.toString();
         }
-        return "We Are Providing Now"+expertise;
+        return "We Are Providing Now" + expertise;
     }
 
 
@@ -120,6 +127,16 @@ public class UserService {
 
     public void deleteCustomer(String email) {
         customerRepository.deleteByEmail(email);
+    }
+
+    public boolean verifyWorkerAge(String dob) throws ParseException {
+        String birthDate = dob;
+        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(birthDate);
+        Date now = new Date();
+        if (now.compareTo(date) > 18) {
+            return true;
+        }
+        return false;
     }
 
 }

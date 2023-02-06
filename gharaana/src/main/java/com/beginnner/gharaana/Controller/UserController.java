@@ -22,7 +22,7 @@ public class UserController {
     public LoginResponce login(@RequestBody LoginRequest loginRequest) {
         Boolean WorkerVification = userService.isWorker(loginRequest.email);
         Boolean CustomerVerification = userService.isCustomer(loginRequest.email);
-        if (WorkerVification == false && CustomerVerification==false) {
+        if (WorkerVification == false && CustomerVerification == false) {
             LoginResponce loginResponce = new LoginResponce(null, false, "Login Failed");
             return loginResponce;
         }
@@ -40,16 +40,16 @@ public class UserController {
                 return loginResponce;
             }
         }
-            String workerEmail = loginRequest.email;
-            String workerToken = token.generateToken(workerEmail);
-            Boolean workerLogin = userService.loginWorkerVerify(loginRequest);
-            if (workerLogin) {
-                LoginResponce workerLoginResponce = new LoginResponce(workerToken, true, "Logged in");
-                return workerLoginResponce;
-            }
-            LoginResponce wrongLoginResponce = new LoginResponce(null, false, "Wrong info");
-            return wrongLoginResponce;
-
-
+        String workerEmail = loginRequest.email;
+        String workerToken = token.generateToken(workerEmail);
+        Boolean workerLogin = userService.loginWorkerVerify(loginRequest);
+        if (workerLogin) {
+            LoginResponce workerLoginResponce = new LoginResponce(workerToken, true, "Logged in");
+            return workerLoginResponce;
         }
+        LoginResponce wrongLoginResponce = new LoginResponce(null, false, "Wrong info");
+        return wrongLoginResponce;
+
+
     }
+}

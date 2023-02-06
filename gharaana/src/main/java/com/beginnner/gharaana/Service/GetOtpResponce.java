@@ -1,12 +1,12 @@
 package com.beginnner.gharaana.Service;
 
-import com.beginnner.gharaana.Entity.Order;
-
-public class CompleteOrderResponce {
+public class GetOtpResponce {
+    public long otp;
     public boolean status;
     public String responce;
 
-    public CompleteOrderResponce(String responce, boolean status) {
+    public GetOtpResponce(Long otp, String responce, boolean status) {
+        this.otp=otp;
         this.responce=responce;
         this.status=status;
     }
