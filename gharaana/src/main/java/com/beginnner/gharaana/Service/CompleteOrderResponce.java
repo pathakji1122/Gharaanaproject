@@ -10,4 +10,5 @@ public class CompleteOrderResponce {
         this.responce=responce;
         this.status=status;
     }
+
 }

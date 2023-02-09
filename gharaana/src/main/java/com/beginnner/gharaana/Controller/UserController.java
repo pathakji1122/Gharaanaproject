@@ -20,36 +20,10 @@ public class UserController {
 
     @PostMapping("login")
     public LoginResponce login(@RequestBody LoginRequest loginRequest) {
-        Boolean WorkerVification = userService.isWorker(loginRequest.email);
-        Boolean CustomerVerification = userService.isCustomer(loginRequest.email);
-        if (WorkerVification == false && CustomerVerification == false) {
-            LoginResponce loginResponce = new LoginResponce(null, false, "Login Failed");
-            return loginResponce;
+        Boolean workerVerification = userService.isWorker(loginRequest.email);
+        if (workerVerification) {
+            return userService.loginWorkerVerify(loginRequest);
         }
-        if (CustomerVerification == true) {
-            String email = loginRequest.email;
-            String Token = token.generateToken(email);
-            Boolean login = userService.loginCustomerVerify(loginRequest);
-            if (login) {
-                Boolean worker = userService.isWorker(email);
-                LoginResponce loginResponce = new LoginResponce(Token, false, "Logged in");
-                return loginResponce;
-            } else {
-                String responce = "Wrong info";
-                LoginResponce loginResponce = new LoginResponce(null, false, responce);
-                return loginResponce;
-            }
-        }
-        String workerEmail = loginRequest.email;
-        String workerToken = token.generateToken(workerEmail);
-        Boolean workerLogin = userService.loginWorkerVerify(loginRequest);
-        if (workerLogin) {
-            LoginResponce workerLoginResponce = new LoginResponce(workerToken, true, "Logged in");
-            return workerLoginResponce;
-        }
-        LoginResponce wrongLoginResponce = new LoginResponce(null, false, "Wrong info");
-        return wrongLoginResponce;
-
-
+        return userService.loginCustomerVerify(loginRequest);
     }
 }
