@@ -6,54 +6,64 @@ import com.beginnner.gharaana.Repo.OrderRepository;
 import com.beginnner.gharaana.Repo.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import static java.lang.String.valueOf;
 
 @org.springframework.stereotype.Service
 public class UserService {
     @Autowired
-    OrderRepository orderRepository;
-
+    Auth auth;
     @Autowired
     CustomerRepository customerRepository;
     @Autowired
     WorkerRepository workerRepository;
 
 
-    public boolean loginCustomerVerify(LoginRequest loginRequest) {
+    public LoginResponce loginCustomerVerify(LoginRequest loginRequest) {
         String password = loginRequest.password;
         String email = loginRequest.email;
         Customer customer = customerRepository.findOneByEmail(email);
+        if (customer == null) {
+            return new LoginResponce(null, false, "User Doesn't Exists");
+        }
         if (customer.password.equals(password)) {
-            return true;
+            String token = auth.generateToken(loginRequest.email);
+            return new LoginResponce(token, false, "Login Successful");
         } else {
-            return false;
+            return new LoginResponce(null, false, "Wrong Password");
         }
     }
 
-    public boolean loginWorkerVerify(LoginRequest loginRequest) {
+    public LoginResponce loginWorkerVerify(LoginRequest loginRequest) {
         String password = loginRequest.password;
         String email = loginRequest.email;
         Worker worker = workerRepository.findOneByEmail(email);
+        if (worker == null) {
+            return new LoginResponce(null, false, "User Doesnt Exists");
+        }
         if (worker.password.equals(password)) {
-            return true;
+            String token = auth.generateToken(loginRequest.email);
+            return new LoginResponce(token, true, "Login Successful");
         } else {
-            return false;
+            return new LoginResponce(null, false, "Wrong Password");
         }
     }
 
-    public boolean registerCustomer(CustomerSignupRequest customerSignupRequest) {
-        String email = customerSignupRequest.email;
-        String phoneNo = customerSignupRequest.phoneNo;
-        Customer customer = customerRepository.findOneByEmail(email);
-        Customer customer1 = customerRepository.findOneByPhoneNo(phoneNo);
-        if (customer != null || customer1 != null) {
-            return false;
+    public SignupResponce registerCustomer(CustomerSignupRequest customerSignupRequest) {
+        Location locationverify = Location.getLocationFromCode(valueOf(customerSignupRequest.location));
+        if (locationverify != null) {
+            Customer customer = customerRepository.findOneByEmail(customerSignupRequest.email);
+            if (customer == null) {
+                Customer newSaveCustomer = new Customer(customerSignupRequest.name, customerSignupRequest.email, customerSignupRequest.password, customerSignupRequest.phoneNo, customerSignupRequest.location, customerSignupRequest.servicePack);
+                saveCustomer(newSaveCustomer);
+                String responce = "Welcome to Gharaana " + customerSignupRequest.name;
+                return new SignupResponce(responce, true);
+            }
+
+            return new SignupResponce("Customer Exists", false);
+
         }
-        Customer newCustomer = new Customer(customerSignupRequest.name, customerSignupRequest.email, customerSignupRequest.password, customerSignupRequest.phoneNo, customerSignupRequest.location, customerSignupRequest.servicePack);
-        saveCustomer(newCustomer);
-        return true;
+        String responce = getCurrentLocations();
+        return new SignupResponce(responce, false);
     }
 
     public void saveCustomer(Customer customer) {
@@ -61,16 +71,22 @@ public class UserService {
 
     }
 
-    public boolean registerWorker(WorkerSignupRequest workerSignupRequest) {
-        String email = workerSignupRequest.email;
-        Worker worker = workerRepository.findOneByEmail(email);
-        if (worker != null) {
-            return false;
-        }
+    public SignupResponce registerWorker(WorkerSignupRequest workerSignupRequest) {
+        Location locationverify = Location.getLocationFromCode(valueOf(workerSignupRequest.location));
+        if (locationverify != null) {
+            Worker worker = workerRepository.findOneByEmail(workerSignupRequest.email);
+            if (worker == null) {
+                Worker newSaveWorker = new Worker(workerSignupRequest.name, workerSignupRequest.email, workerSignupRequest.password, workerSignupRequest.phoneNo, workerSignupRequest.location, workerSignupRequest.expertise);
+                saveWorker(newSaveWorker);
+                String responce = "Welcome to Gharaana " + workerSignupRequest.name;
+                return new SignupResponce(responce, true);
+            }
 
-        Worker newWorker = new Worker(workerSignupRequest.name, workerSignupRequest.email, workerSignupRequest.password, workerSignupRequest.phoneNo, workerSignupRequest.location, workerSignupRequest.expertise);
-        saveWorker(newWorker);
-        return true;
+            return new SignupResponce("Worker Exists", false);
+
+        }
+        String responce = getCurrentLocations();
+        return new SignupResponce(responce, false);
     }
 
     public void saveWorker(Worker worker) {
@@ -86,17 +102,8 @@ public class UserService {
         }
     }
 
-    public boolean isCustomer(String email) {
-        Customer customer = customerRepository.findOneByEmail(email);
-        if (customer != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
-
-    public String getCustomerLocations() {
+    public String getCurrentLocations() {
         String locations = "";
         for (Location locate : Location.values()) {
             locations = locations + " " + locate.toString();
@@ -104,7 +111,7 @@ public class UserService {
         return locations;
     }
 
-    public String getCustomerExpertise() {
+    public String availableExpertises() {
         String expertise = "";
         for (Expertise expertises : Expertise.values()) {
             expertise = expertise + " " + expertises.toString();
@@ -125,19 +132,16 @@ public class UserService {
         return worker;
     }
 
-    public void deleteCustomer(String email) {
-        customerRepository.deleteByEmail(email);
+    public DeleteCustomerResponce deleteCustomer(String email) {
+        Customer customer = customerRepository.findOneByEmail(email);
+        if (customer != null) {
+            customerRepository.deleteByEmail(email);
+            return new DeleteCustomerResponce(true, "Customer Deleted");
+        }
+        return new DeleteCustomerResponce(false, "Customer Doesn't Exists");
+
     }
 
-    public boolean verifyWorkerAge(String dob) throws ParseException {
-        String birthDate = dob;
-        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(birthDate);
-        Date now = new Date();
-        if (now.compareTo(date) > 18) {
-            return true;
-        }
-        return false;
-    }
 
 }
 
