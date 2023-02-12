@@ -4,6 +4,7 @@ import com.beginnner.gharaana.Entity.*;
 import com.beginnner.gharaana.Repo.CustomerRepository;
 import com.beginnner.gharaana.Repo.OrderRepository;
 import com.beginnner.gharaana.Repo.WorkerRepository;
+import com.beginnner.gharaana.Validation.SignupRequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static java.lang.String.valueOf;
@@ -49,6 +50,10 @@ public class UserService {
     }
 
     public SignupResponce registerCustomer(CustomerSignupRequest customerSignupRequest) {
+        String validCustomerData = SignupRequestValidator.validateCustomerRequest(customerSignupRequest);
+        if (validCustomerData != null) {
+            return new SignupResponce(validCustomerData, false);
+        }
         Location locationverify = Location.getLocationFromCode(valueOf(customerSignupRequest.location));
         if (locationverify != null) {
             Customer customer = customerRepository.findOneByEmail(customerSignupRequest.email);
@@ -63,7 +68,7 @@ public class UserService {
 
         }
         String responce = getCurrentLocations();
-        return new SignupResponce(responce, false);
+        return new SignupResponce("We Are Only Available in " + responce, false);
     }
 
     public void saveCustomer(Customer customer) {
@@ -72,6 +77,10 @@ public class UserService {
     }
 
     public SignupResponce registerWorker(WorkerSignupRequest workerSignupRequest) {
+        String validWorkerData = SignupRequestValidator.validateWorkerRequest(workerSignupRequest);
+        if (validWorkerData != null) {
+            return new SignupResponce(validWorkerData, false);
+        }
         Location locationverify = Location.getLocationFromCode(valueOf(workerSignupRequest.location));
         if (locationverify != null) {
             Worker worker = workerRepository.findOneByEmail(workerSignupRequest.email);
@@ -121,13 +130,15 @@ public class UserService {
 
 
     public Customer getCustomerByToken(String token) {
-        String email = token.split("@@@@@GharanaUser")[0];
+        String[] splitToken = token.split("##", 4);
+        String email = splitToken[0] + "@gmail.com";
         Customer customer = customerRepository.findOneByEmail(email);
         return customer;
     }
 
     public Worker getWorkerByToken(String token) {
-        String email = token.split("@@@@@GharanaUser")[0];
+        String[] splitToken = token.split("##", 4);
+        String email = splitToken[0] + "@gmail.com";
         Worker worker = workerRepository.findOneByEmail(email);
         return worker;
     }

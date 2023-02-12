@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import static java.lang.String.valueOf;
 
@@ -63,6 +64,7 @@ public class OrderService {
             Order order = orderRepository.findByOrderId(startOrderRequest.orderId);
             Times times = order.getTimes();
             times.startTime = orderTimes();
+            order.setOrderStatus(OrderStatus.IN_PROGRESS);
             order.setTimes(times);
             orderRepository.save(order);
             Otp otp = new Otp(order.getOrderId(), Util.generateOtp());
@@ -87,10 +89,14 @@ public class OrderService {
     }
 
     public OrderStatusResponce orderStatus(OrderStatusRequest orderStatusRequest) {
+        Customer customer = userService.getCustomerByToken(orderStatusRequest.token);
         Order order = orderRepository.findByOrderId(orderStatusRequest.orderId);
         if (order != null) {
-            OrderStatusResponce orderStatusResponce = new OrderStatusResponce(true, "Your Order Status is", order);
-            return orderStatusResponce;
+            if (order.getEmail().equals(customer.email)) {
+                OrderStatusResponce orderStatusResponce = new OrderStatusResponce(true, "Your Gharaana Agent is " + order.getGharanaAgent(), order);
+                return orderStatusResponce;
+            }
+            return new OrderStatusResponce(false, "Enter Correct order Id", null);
         } else {
             return new OrderStatusResponce(false, "Enter Correct OrderId", null);
         }
@@ -128,6 +134,9 @@ public class OrderService {
 
     public GetOtpResponce getOtp(GetOtpRequest getOtpRequest) {
         Otp currentOtp = otpRepository.findOneByOrderId(getOtpRequest.orderId);
+        if (currentOtp == null) {
+            return new GetOtpResponce(null, "Order id " + getOtpRequest.orderId + " doesnt exist", false);
+        }
         return new GetOtpResponce(currentOtp.otp, "Your Otp is", true);
     }
 

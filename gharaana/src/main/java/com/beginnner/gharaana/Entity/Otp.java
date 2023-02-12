@@ -7,12 +7,12 @@ import java.time.LocalTime;
 @Document("otp")
 public class Otp {
 
-    public long otp;
+    public Long otp;
     @Id
     public String orderId;
 
 
-    public Otp(String orderId, long otp) {
+    public Otp(String orderId, Long otp) {
         this.otp=otp;
         this.orderId=orderId;
 
