@@ -2,6 +2,7 @@ package com.beginnner.gharaana.Controller;
 
 import com.beginnner.gharaana.Entity.*;
 import com.beginnner.gharaana.Service.*;
+import com.beginnner.gharaana.Validation.OrderRequestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,7 +59,10 @@ public class CustomerController {
 
     @PostMapping(path = "placeorder")
     public OrderResponce order(@RequestBody OrderRequest orderRequest) throws ParseException {
-
+        String validationError = OrderRequestValidator.validate(orderRequest);
+        if (validationError != null) {
+            return new OrderResponce(false, null, validationError);
+        }
         String token = orderRequest.token;
         Boolean verified = auth.verifyCustomerToken(token);
         if (verified) {
@@ -66,8 +70,8 @@ public class CustomerController {
         }
         OrderResponce orderResponce = new OrderResponce(false, null, "Invalid Token");
         return orderResponce;
-
     }
+
 
     @PostMapping(path = "getotp")
     public GetOtpResponce getOtp(@RequestBody GetOtpRequest getOtpRequest) {
