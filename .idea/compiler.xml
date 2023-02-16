@@ -12,6 +12,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="gharaana" target="17" />
+      <module name="gharaana (1)" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
