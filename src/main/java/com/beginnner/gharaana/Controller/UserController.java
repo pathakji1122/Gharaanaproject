@@ -1,7 +1,7 @@
 package com.beginnner.gharaana.Controller;
 
-import com.beginnner.gharaana.Service.LoginRequest;
-import com.beginnner.gharaana.Service.LoginResponce;
+import com.beginnner.gharaana.Object.LoginRequest;
+import com.beginnner.gharaana.Object.LoginResponce;
 import com.beginnner.gharaana.Service.Auth;
 import com.beginnner.gharaana.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

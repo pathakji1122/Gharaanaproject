@@ -1,22 +1,34 @@
 package com.beginnner.gharaana.Service;
 
 import com.beginnner.gharaana.Entity.*;
-import com.beginnner.gharaana.Repo.CustomerRepository;
-import com.beginnner.gharaana.Repo.OrderRepository;
-import com.beginnner.gharaana.Repo.WorkerRepository;
-import com.beginnner.gharaana.Validation.SignupRequestValidator;
+import com.beginnner.gharaana.Object.*;
+import com.beginnner.gharaana.Object.AddBalanceResponse;
+import com.beginnner.gharaana.Repo.*;
+import com.beginnner.gharaana.Validation.*;
+import com.beginnner.gharaana.PaymentGatewayResponse.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
+import java.util.List;
 
 import static java.lang.String.valueOf;
 
 @org.springframework.stereotype.Service
 public class UserService {
     @Autowired
+    AgentInfoRepository agentInfoRepository;
+    @Autowired
+    OrderRepository orderRepository;
+    @Autowired
+    PaymentService paymentService;
+    @Autowired
     Auth auth;
     @Autowired
     CustomerRepository customerRepository;
     @Autowired
     WorkerRepository workerRepository;
+
 
 
     public LoginResponce loginCustomerVerify(LoginRequest loginRequest) {
@@ -39,7 +51,7 @@ public class UserService {
         String email = loginRequest.email;
         Worker worker = workerRepository.findOneByEmail(email);
         if (worker == null) {
-            return new LoginResponce(null, false, "User Doesnt Exists");
+            return new LoginResponce(null, false, "User Doesn't Exists");
         }
         if (worker.password.equals(password)) {
             String token = auth.generateToken(loginRequest.email);
@@ -49,26 +61,27 @@ public class UserService {
         }
     }
 
-    public SignupResponce registerCustomer(CustomerSignupRequest customerSignupRequest) {
+    public SignUpResponse registerCustomer(CustomerSignUpRequest customerSignupRequest) throws IOException, InterruptedException {
         String validCustomerData = SignupRequestValidator.validateCustomerRequest(customerSignupRequest);
         if (validCustomerData != null) {
-            return new SignupResponce(validCustomerData, false);
+            return new SignUpResponse(validCustomerData, false);
         }
-        Location locationverify = Location.getLocationFromCode(valueOf(customerSignupRequest.location));
-        if (locationverify != null) {
+        Location locationVerify = Location.getLocationFromCode(valueOf(customerSignupRequest.location));
+        if (locationVerify != null) {
             Customer customer = customerRepository.findOneByEmail(customerSignupRequest.email);
             if (customer == null) {
-                Customer newSaveCustomer = new Customer(customerSignupRequest.name, customerSignupRequest.email, customerSignupRequest.password, customerSignupRequest.phoneNo, customerSignupRequest.location, customerSignupRequest.servicePack);
-                saveCustomer(newSaveCustomer);
-                String responce = "Welcome to Gharaana " + customerSignupRequest.name;
-                return new SignupResponce(responce, true);
+                String accountNo=paymentService.createPaymentAccount(customerSignupRequest.name,customerSignupRequest.email).accountNo;
+                Customer newCustomer = new Customer(customerSignupRequest.name, customerSignupRequest.email, customerSignupRequest.password, customerSignupRequest.phoneNo,customerSignupRequest.location,accountNo,ServicePack.BASIC);
+                saveCustomer(newCustomer);
+                String response = "Welcome To Gharaana " + customerSignupRequest.name;
+                return new SignUpResponse(response, true);
             }
 
-            return new SignupResponce("Customer Exists", false);
+            return new SignUpResponse("Customer Exists", false);
 
         }
-        String responce = getCurrentLocations();
-        return new SignupResponce("We Are Only Available in " + responce, false);
+        String response = getCurrentLocations();
+        return new SignUpResponse("We Are Only Available in " + response, false);
     }
 
     public void saveCustomer(Customer customer) {
@@ -76,26 +89,29 @@ public class UserService {
 
     }
 
-    public SignupResponce registerWorker(WorkerSignupRequest workerSignupRequest) {
+    public SignUpResponse registerWorker(WorkerSignupRequest workerSignupRequest) throws IOException, InterruptedException {
         String validWorkerData = SignupRequestValidator.validateWorkerRequest(workerSignupRequest);
         if (validWorkerData != null) {
-            return new SignupResponce(validWorkerData, false);
+            return new SignUpResponse(validWorkerData, false);
         }
-        Location locationverify = Location.getLocationFromCode(valueOf(workerSignupRequest.location));
-        if (locationverify != null) {
+        Location locationVerify = Location.getLocationFromCode(valueOf(workerSignupRequest.location));
+        if (locationVerify != null) {
             Worker worker = workerRepository.findOneByEmail(workerSignupRequest.email);
             if (worker == null) {
-                Worker newSaveWorker = new Worker(workerSignupRequest.name, workerSignupRequest.email, workerSignupRequest.password, workerSignupRequest.phoneNo, workerSignupRequest.location, workerSignupRequest.expertise);
+                String accountNo=paymentService.createPaymentAccount(workerSignupRequest.name,workerSignupRequest.email).accountNo;
+                Worker newSaveWorker = new Worker(workerSignupRequest.name, workerSignupRequest.email, workerSignupRequest.password, workerSignupRequest.phoneNo, workerSignupRequest.location,accountNo, workerSignupRequest.expertise);
                 saveWorker(newSaveWorker);
-                String responce = "Welcome to Gharaana " + workerSignupRequest.name;
-                return new SignupResponce(responce, true);
+                AgentInfo agentInfo=new AgentInfo(workerSignupRequest.name,workerSignupRequest.email,workerSignupRequest.expertise,0,0);
+                agentInfoRepository.save(agentInfo);
+                String response = "Welcome to Gharaana " + workerSignupRequest.name;
+                return new SignUpResponse(response, true);
             }
 
-            return new SignupResponce("Worker Exists", false);
+            return new SignUpResponse("Worker Exists", false);
 
         }
-        String responce = getCurrentLocations();
-        return new SignupResponce(responce, false);
+        String response = getCurrentLocations();
+        return new SignUpResponse(response, false);
     }
 
     public void saveWorker(Worker worker) {
@@ -143,15 +159,77 @@ public class UserService {
         return worker;
     }
 
-    public DeleteCustomerResponce deleteCustomer(String email) {
+    public DeleteCustomerResponse deleteCustomer(String email) {
         Customer customer = customerRepository.findOneByEmail(email);
         if (customer != null) {
             customerRepository.deleteByEmail(email);
-            return new DeleteCustomerResponce(true, "Customer Deleted");
+            List<Order>orderList=orderRepository.findByEmail(email);
+            for(int i = 0;i<orderList.size();i++){
+                orderRepository.deleteByOrderId(orderList.get(i).getOrderId());
+
+            }
+            return new DeleteCustomerResponse(true, "Customer Deleted");
         }
-        return new DeleteCustomerResponce(false, "Customer Doesn't Exists");
+        return new DeleteCustomerResponse(false, "Customer Doesn't Exists");
 
     }
+    public UpgradeAccountResponse upgradeAccount(UpgradeAccountRequest upgradeAccountRequest) throws IOException, InterruptedException {
+        Customer customer=getCustomerByToken(upgradeAccountRequest.token);
+        if(customer.servicePack.equals(ServicePack.BASIC)){
+            Boolean verify=paymentService.premiumCharge(customer.email).status;
+            String response=paymentService.premiumCharge(customer.email).response;
+            if(verify){
+                customer.servicePack=ServicePack.PREMIUM;
+                customerRepository.save(customer);
+                return new UpgradeAccountResponse("You are Premium Customer Now",true,ServicePack.PREMIUM);
+            }
+            return new UpgradeAccountResponse(response,false,ServicePack.BASIC);
+        }
+        return new UpgradeAccountResponse("You Are Already Premium Customer",true,ServicePack.PREMIUM);
+    }
+    public AddBalanceResponse addBalance(AddBalanceRequest addBalanceRequest) throws IOException, InterruptedException {
+        Customer customer=getCustomerByToken(addBalanceRequest.token);
+       AddBalanceGateWayResponse addBalanceGateWayResponse = paymentService.addBalance(addBalanceRequest.amount,customer.email);
+       return new AddBalanceResponse(addBalanceGateWayResponse.response,addBalanceGateWayResponse.status);
+    }
+    public CheckBalanceResponse checkBalance(CheckBalanceRequest checkBalanceRequest) throws IOException, InterruptedException {
+        Customer customer=getCustomerByToken(checkBalanceRequest.token);
+        CheckBalanceGateWayResponse checkBalanceGateWayResponse= paymentService.checkBalance(customer.email);
+        return new CheckBalanceResponse(checkBalanceGateWayResponse.balance,checkBalanceGateWayResponse.status);
+    }
+    public RatingResponse rating(RatingRequest ratingRequest){
+        Boolean validRating=validRatingPoint(ratingRequest);
+        if(validRating==false){
+            return new RatingResponse("Please Rate Between 1-10",false);
+        }
+        if(ratingRequest.ratingPoint>10||ratingRequest.ratingPoint<1){
+            return new RatingResponse("Please Rate between 1-10",false);
+        }
+
+        Order order=orderRepository.findByOrderId(ratingRequest.orderId);
+        AgentInfo agentInfo=agentInfoRepository.findOneByEmail(order.getGharaanaAgent());
+        Customer customer=getCustomerByToken(ratingRequest.token);
+        if(order.getEmail().equals(customer.email)){
+            agentInfo.rating= (agentInfo.rating+ ratingRequest.ratingPoint)/agentInfo.totalOrders;
+            agentInfoRepository.save(agentInfo);
+            return new RatingResponse("Thank You For Rating",true);
+
+
+        }
+        return new RatingResponse("Wrong Request",false);
+    }
+
+    public boolean validRatingPoint(RatingRequest ratingRequest){
+        try {
+            Integer.parseInt(String.valueOf(ratingRequest.ratingPoint));
+            return true;
+        }
+        catch (NumberFormatException e){
+            return false;
+        }
+    }
+
+
 
 
 }

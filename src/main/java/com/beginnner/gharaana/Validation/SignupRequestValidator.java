@@ -1,11 +1,11 @@
 package com.beginnner.gharaana.Validation;
 
-import com.beginnner.gharaana.Service.CustomerSignupRequest;
-import com.beginnner.gharaana.Service.WorkerSignupRequest;
+import com.beginnner.gharaana.Object.CustomerSignUpRequest;
+import com.beginnner.gharaana.Object.WorkerSignupRequest;
 
 public class SignupRequestValidator {
 
-    public static String validateCustomerEmail(CustomerSignupRequest customerSignupRequest) {
+    public static String validateCustomerEmail(CustomerSignUpRequest customerSignupRequest) {
 
         if (customerSignupRequest.email.contains("@gmail.com") == false) {
             return "Email invalid";
@@ -29,7 +29,7 @@ public class SignupRequestValidator {
         return null;
     }
 
-    public static String validateCustomerPhoneNo(CustomerSignupRequest customerSignupRequest) {
+    public static String validateCustomerPhoneNo(CustomerSignUpRequest customerSignupRequest) {
         if (customerSignupRequest.phoneNo.length() != 10) {
             return "Enter PhoneNo of 10 digits";
         }
@@ -53,7 +53,7 @@ public class SignupRequestValidator {
         return null;
     }
 
-    public static String validateCustomerRequest(CustomerSignupRequest customerSignupRequest) {
+    public static String validateCustomerRequest(CustomerSignUpRequest customerSignupRequest) {
         String emailValidate = validateCustomerEmail(customerSignupRequest);
         if (emailValidate != null) {
             return emailValidate;
