@@ -1,8 +1,6 @@
 package com.beginnner.gharaana.Service;
 
-import com.beginnner.gharaana.Entity.Customer;
-import com.beginnner.gharaana.Entity.User;
-import com.beginnner.gharaana.Entity.Worker;
+import com.beginnner.gharaana.Entity.*;
 import com.beginnner.gharaana.Repo.CustomerRepository;
 import com.beginnner.gharaana.Repo.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;

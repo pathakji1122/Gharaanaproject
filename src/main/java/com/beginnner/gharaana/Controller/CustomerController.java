@@ -1,14 +1,14 @@
 package com.beginnner.gharaana.Controller;
 
-import com.beginnner.gharaana.Entity.*;
+import com.beginnner.gharaana.Object.*;
 import com.beginnner.gharaana.Service.*;
-import com.beginnner.gharaana.Validation.OrderRequestValidator;
+import com.beginnner.gharaana.Validation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.text.ParseException;
 
-import static java.lang.String.valueOf;
 
 @RestController
 @RequestMapping("customer")
@@ -21,68 +21,125 @@ public class CustomerController {
     Auth auth;
 
     @PostMapping(path = "signup")
-    public SignupResponce signup(@RequestBody CustomerSignupRequest customerSignupRequest) {
-        return userService.registerCustomer(customerSignupRequest);
+    public SignUpResponse signUp(@RequestBody CustomerSignUpRequest customerSignUpRequest) throws IOException, InterruptedException {
+        return userService.registerCustomer(customerSignUpRequest);
     }
 
     @DeleteMapping("delete")
-    public DeleteCustomerResponce deletecustomer(@RequestBody DeleteRequest deleteRequest) {
-        String token = deleteRequest.token;
+    public DeleteCustomerResponse deleteCustomer(@RequestBody DeleteCustomerRequest deleteCustomerRequest) {
+        String token = deleteCustomerRequest.token;
         Boolean verified = auth.verifyCustomerToken(token);
         if (verified) {
-            return userService.deleteCustomer(deleteRequest.email);
+            return userService.deleteCustomer(deleteCustomerRequest.email);
         }
-        DeleteCustomerResponce deleteCustomerResponce = new DeleteCustomerResponce(false, "Invalid Token");
-        return deleteCustomerResponce;
-
+        return new DeleteCustomerResponse(false, "Invalid Token");
     }
 
     @PostMapping(path = "myorder")
-    public MyOrderResponce myOrder(@RequestBody MyOrderRequest myOrderRequest) {
+    public MyOrderResponse myOrder(@RequestBody MyOrderRequest myOrderRequest) {
         String token = myOrderRequest.token;
         Boolean verify = auth.verifyCustomerToken(myOrderRequest.token);
         if (verify) {
             return orderService.myOrder(myOrderRequest);
         }
-        return new MyOrderResponce(false, "Invalid Token", null);
+        return new MyOrderResponse(false, "Invalid Token", null);
     }
 
     @PostMapping(path = "orderstatus")
-    public OrderStatusResponce orderStatus(@RequestBody OrderStatusRequest orderStatusRequest) {
+    public OrderStatusResponse orderStatus(@RequestBody OrderStatusRequest orderStatusRequest) {
         String token = orderStatusRequest.token;
         Boolean verify = auth.verifyCustomerToken(token);
         if (verify) {
             return orderService.orderStatus(orderStatusRequest);
         }
-        return new OrderStatusResponce(false, "Invalid Token", null);
+        return new OrderStatusResponse(false, "Invalid Token", null);
     }
 
     @PostMapping(path = "placeorder")
-    public OrderResponce order(@RequestBody OrderRequest orderRequest) throws ParseException {
+    public OrderResponse order(@RequestBody OrderRequest orderRequest) throws ParseException {
         String validationError = OrderRequestValidator.validate(orderRequest);
         if (validationError != null) {
-            return new OrderResponce(false, null, validationError);
+            return new OrderResponse(false, null, validationError);
         }
         String token = orderRequest.token;
         Boolean verified = auth.verifyCustomerToken(token);
         if (verified) {
             return orderService.placeOrder(orderRequest);
         }
-        OrderResponce orderResponce = new OrderResponce(false, null, "Invalid Token");
-        return orderResponce;
+        OrderResponse orderResponse = new OrderResponse(false, null, "Invalid Token");
+        return orderResponse;
     }
 
 
     @PostMapping(path = "getotp")
-    public GetOtpResponce getOtp(@RequestBody GetOtpRequest getOtpRequest) {
+    public GetOtpResponse getOtp(@RequestBody GetOtpRequest getOtpRequest) {
         String token = getOtpRequest.token;
         Boolean verified = auth.verifyCustomerToken(token);
         if (verified) {
             return orderService.getOtp(getOtpRequest);
         }
-        return new GetOtpResponce(null, "Invalid Token", false);
+        return new GetOtpResponse(null, "Invalid Token", false);
 
     }
 
+    @PostMapping(path = "cancelorder")
+    public CancelOrderResponse cancelOrder(@RequestBody CancelOrderRequest cancelOrderRequest) {
+        String token = cancelOrderRequest.token;
+        Boolean verified = auth.verifyCustomerToken(token);
+        if (verified) {
+            return orderService.cancelOrder(cancelOrderRequest);
+        }
+        return new CancelOrderResponse("Invalid Token", false, null);
+    }
+
+    @PostMapping(path = "upgradeaccount")
+    public UpgradeAccountResponse upgradeAccount(@RequestBody UpgradeAccountRequest upgradeAccountRequest) throws IOException, InterruptedException {
+        Boolean verified = auth.verifyCustomerToken(upgradeAccountRequest.token);
+        if (verified) {
+            return userService.upgradeAccount(upgradeAccountRequest);
+        }
+        return new UpgradeAccountResponse("Invalid Token", false, null);
+
+    }
+
+    @PostMapping(path = "addbalance")
+    public AddBalanceResponse addBalance(@RequestBody AddBalanceRequest addBalanceRequest) throws IOException, InterruptedException {
+        String token = addBalanceRequest.token;
+        Boolean verified = auth.verifyCustomerToken(token);
+        if (verified) {
+            return userService.addBalance(addBalanceRequest);
+
+        }
+        return new AddBalanceResponse("Invalid token", false);
+    }
+
+    @PostMapping(path = "orderpayment")
+    public OrderPaymentResponse orderPayment(@RequestBody OrderPaymentRequest orderPaymentRequest) throws IOException, InterruptedException {
+        String token = orderPaymentRequest.token;
+        Boolean verified = auth.verifyCustomerToken(token);
+        if (verified) {
+            return orderService.orderPayment(orderPaymentRequest);
+        }
+        return new OrderPaymentResponse("Invalid Token", false);
+    }
+
+    @PostMapping(path = "checkbalance")
+    public CheckBalanceResponse checkBalance(@RequestBody CheckBalanceRequest checkBalanceRequest) throws IOException, InterruptedException {
+        boolean verified = auth.verifyCustomerToken(checkBalanceRequest.token);
+        if (verified) {
+            return userService.checkBalance(checkBalanceRequest);
+        }
+        return new CheckBalanceResponse(null, false);
+    }
+
+    @PostMapping(path = "rateagent")
+    public RatingResponse rateAgent(@RequestBody RatingRequest ratingRequest) {
+        Boolean verified = auth.verifyCustomerToken(ratingRequest.token);
+        if (verified) {
+            return userService.rating(ratingRequest);
+        }
+        return new RatingResponse("Invalid Token", false);
+
+    }
 }
 

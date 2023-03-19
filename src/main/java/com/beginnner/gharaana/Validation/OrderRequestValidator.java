@@ -1,6 +1,6 @@
 package com.beginnner.gharaana.Validation;
 
-import com.beginnner.gharaana.Service.OrderRequest;
+import com.beginnner.gharaana.Object.OrderRequest;
 
 public class OrderRequestValidator {
     public static String validate(OrderRequest orderRequest) {
