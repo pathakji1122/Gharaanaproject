@@ -5,11 +5,22 @@ import com.beginnner.gharaana.Object.LoginResponce;
 import com.beginnner.gharaana.Service.JwtUtil;
 import com.beginnner.gharaana.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+
+@CrossOrigin(
+        origins = {
+                "http://localhost:3000",
+                "https://web1-1.onrender.com"
+
+        },
+        methods = {
+                RequestMethod.OPTIONS,
+                RequestMethod.GET,
+                RequestMethod.PUT,
+                RequestMethod.DELETE,
+                RequestMethod.POST
+        })
 @RestController
 @RequestMapping(path = "user")
 public class UserController {
