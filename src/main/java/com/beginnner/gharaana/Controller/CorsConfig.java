@@ -8,17 +8,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebMvc
 public class CorsConfig implements WebMvcConfigurer {
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("https://web1-1.onrender.com") // Replace with your frontend's origin
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowCredentials(true);
-
-        registry.addMapping("/customer/signup")
-                .allowedOrigins("https://web1-1.onrender.com")
-                .allowedMethods("POST")
-                .allowCredentials(true);
-    }
-}
+//
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**")
+//                .allowedOrigins("https://web1-1.onrender.com") // Replace with your frontend's origin
+//                .allowedMethods("GET", "POST", "PUT", "DELETE")
+//                .allowCredentials(true);
+//
+//        registry.addMapping("/customer/signup")
+//                .allowedOrigins("https://web1-1.onrender.com")
+//                .allowedMethods("POST")
+//                .allowCredentials(true);
+  }
+//}
