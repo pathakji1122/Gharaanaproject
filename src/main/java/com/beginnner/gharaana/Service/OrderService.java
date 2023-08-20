@@ -23,8 +23,7 @@ public class OrderService {
     UserService userService;
     @Autowired
     OrderRepository orderRepository;
-    @Autowired
-    PaymentService paymentService;
+
 
     public String createOrderId(OrderRequest orderRequest) {
         long id = orderRepository.count() + 1;

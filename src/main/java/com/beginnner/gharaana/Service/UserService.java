@@ -19,8 +19,7 @@ public class UserService {
 
     @Autowired
     OrderRepository orderRepository;
-    @Autowired
-    PaymentService paymentService;
+
     @Autowired
     Auth auth;
     @Autowired
