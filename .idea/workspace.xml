@@ -6,19 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f2f8ac0f-9b24-40b5-807f-ae71dc1daa67" name="Changes" comment="versiondeploy">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Entity/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Entity/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Entity/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Entity/Worker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/PaymentGatewayResponse/AddBalanceGateWayResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/PaymentGatewayResponse/CheckBalanceGateWayResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/PaymentGatewayResponse/CreatePaymentAccountGateWayResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/PaymentGatewayResponse/OrderPaymentGateWayResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/PaymentGatewayResponse/AddBalanceGateWayResponse.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/PaymentGatewayResponse/CheckBalanceGateWayResponse.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/PaymentGatewayResponse/CreatePaymentAccountGateWayResponse.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/PaymentGatewayResponse/OrderPaymentGateWayResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/Customer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/Customer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/Worker.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/Worker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Service/UserService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -321,7 +312,14 @@
       <option name="project" value="LOCAL" />
       <updated>1692513383280</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="versiondeploy">
+      <created>1692514237258</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1692514237258</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
