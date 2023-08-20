@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.text.ParseException;
-@CrossOrigin(origins = "https://web1-1.onrender.com")
+
 
 @RestController
 @RequestMapping("customer")
