@@ -2,10 +2,10 @@ package com.beginnner.gharaana.Service;
 
 import com.beginnner.gharaana.Entity.*;
 import com.beginnner.gharaana.Object.*;
-import com.beginnner.gharaana.Object.AddBalanceResponse;
+
 import com.beginnner.gharaana.Repo.*;
 import com.beginnner.gharaana.Validation.*;
-import com.beginnner.gharaana.PaymentGatewayResponse.*;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -68,7 +68,7 @@ public class UserService {
         if (locationVerify != null) {
             Customer customer = customerRepository.findOneByEmail(customerSignupRequest.email);
             if (customer == null) {
-               // String accountNo=paymentService.createPaymentAccount(customerSignupRequest.customerName,customerSignupRequest.email).accountNo;
+
                 Customer newCustomer = new Customer(customerSignupRequest.customerName, customerSignupRequest.email, customerSignupRequest.password, customerSignupRequest.phoneNo,customerSignupRequest.location,"11",ServicePack.BASIC);
                 saveCustomer(newCustomer);
                 String response = "Welcome To Gharaana " + customerSignupRequest.customerName;
@@ -96,8 +96,8 @@ public class UserService {
         if (locationVerify != null) {
             Worker worker = workerRepository.findOneByEmail(workerSignupRequest.email);
             if (worker == null) {
-               // String accountNo=paymentService.createPaymentAccount(workerSignupRequest.expertName,workerSignupRequest.email).accountNo;
-                Worker newSaveWorker = new Worker(workerSignupRequest.expertName, workerSignupRequest.email, workerSignupRequest.password, workerSignupRequest.phoneNo, workerSignupRequest.location,"11", workerSignupRequest.expertise);
+
+                Worker newSaveWorker = new Worker(workerSignupRequest.expertName, workerSignupRequest.email, workerSignupRequest.password, workerSignupRequest.phoneNo, workerSignupRequest.location, workerSignupRequest.expertise);
                 saveWorker(newSaveWorker);
 
                 String response = "Welcome to Gharaana " + workerSignupRequest.expertName;
@@ -173,9 +173,6 @@ public class UserService {
     public UpgradeAccountResponse upgradeAccount(UpgradeAccountRequest upgradeAccountRequest) throws IOException, InterruptedException {
         Customer customer=getCustomerByToken(upgradeAccountRequest.token);
         if(customer.servicePack.equals(ServicePack.BASIC)){
-//           Boolean verify=paymentService.premiumCharge(customer.email).status;
-//            String response=paymentService.premiumCharge(customer.email).response;
-//            if(verify){
                 customer.servicePack=ServicePack.PREMIUM;
                 customerRepository.save(customer);
                 return new UpgradeAccountResponse("You are Premium Customer Now",true,ServicePack.PREMIUM);
@@ -184,27 +181,8 @@ public class UserService {
 
         return new UpgradeAccountResponse("You Are Already Premium Customer",true,ServicePack.PREMIUM);
     }
-//    public AddBalanceResponse addBalance(AddBalanceRequest addBalanceRequest) throws IOException, InterruptedException {
-//        Customer customer=getCustomerByToken(addBalanceRequest.token);
-//       AddBalanceGateWayResponse addBalanceGateWayResponse = paymentService.addBalance(addBalanceRequest.amount,customer.email);
-//       return new AddBalanceResponse(addBalanceGateWayResponse.response,addBalanceGateWayResponse.status);
-//    }
-//    public CheckBalanceResponse checkBalance(CheckBalanceRequest checkBalanceRequest) throws IOException, InterruptedException {
-//        Customer customer=getCustomerByToken(checkBalanceRequest.token);
-//       // CheckBalanceGateWayResponse checkBalanceGateWayResponse= paymentService.checkBalance(customer.email);
-//        return new CheckBalanceResponse(checkBalanceGateWayResponse.balance,checkBalanceGateWayResponse.status);
-//    }
 
 
-    public boolean validRatingPoint(RatingRequest ratingRequest){
-        try {
-            Integer.parseInt(String.valueOf(ratingRequest.ratingPoint));
-            return true;
-        }
-        catch (NumberFormatException e){
-            return false;
-        }
-    }
 
 
 

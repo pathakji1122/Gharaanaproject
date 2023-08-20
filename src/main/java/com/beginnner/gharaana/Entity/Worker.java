@@ -8,8 +8,8 @@ public class Worker extends User {
 
     public Expertise expertise;
 
-    public Worker(String name, String email, String password, String phoneNo, Location location, String accountNo, Expertise expertise) {
-        super(name, email, password, phoneNo, location,accountNo);
+    public Worker(String name, String email, String password, String phoneNo, Location location, Expertise expertise) {
+        super(name, email, password, phoneNo, location);
         this.expertise = expertise;
     }
 }
