@@ -7,7 +7,7 @@ public class CustomerSignUpRequest {
     @NonNull
     public String email;
     public String password;
-    public String name;
+    public String customerName;
     public String phoneNo;
    public Location location;
 

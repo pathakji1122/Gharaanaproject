@@ -13,7 +13,7 @@ public interface OrderRepository extends MongoRepository<Order, String> {
     Order findByOrderId(String orderId);
 
     List<Order> findByEmail(String email);
-    Order deleteByOrderId(String email);
+    Order deleteByOrderId(String orderId);
 
     List<Order> findByLocationAndExpertiseAndOrderStatus(Location location, Expertise expertise, OrderStatus orderStatus);
 }

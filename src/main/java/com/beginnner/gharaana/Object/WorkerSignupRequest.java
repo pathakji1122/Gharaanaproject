@@ -6,7 +6,7 @@ import com.beginnner.gharaana.Entity.Location;
 public class WorkerSignupRequest {
     public String email;
     public String password;
-    public String name;
+    public String expertName;
     public String phoneNo;
     public Location location;
     public Expertise expertise;
