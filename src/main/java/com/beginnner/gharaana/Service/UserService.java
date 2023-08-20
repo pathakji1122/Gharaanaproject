@@ -96,7 +96,6 @@ public class UserService {
         if (locationVerify != null) {
             Worker worker = workerRepository.findOneByEmail(workerSignupRequest.email);
             if (worker == null) {
-
                 Worker newSaveWorker = new Worker(workerSignupRequest.expertName, workerSignupRequest.email, workerSignupRequest.password, workerSignupRequest.phoneNo, workerSignupRequest.location, workerSignupRequest.expertise);
                 saveWorker(newSaveWorker);
 
@@ -177,7 +176,6 @@ public class UserService {
                 customerRepository.save(customer);
                 return new UpgradeAccountResponse("You are Premium Customer Now",true,ServicePack.PREMIUM);
             }
-
 
         return new UpgradeAccountResponse("You Are Already Premium Customer",true,ServicePack.PREMIUM);
     }
