@@ -1,7 +1,7 @@
 package com.beginnner.gharaana.Validation;
 
 import com.beginnner.gharaana.Object.CustomerSignUpRequest;
-import com.beginnner.gharaana.Object.WorkerSignupRequest;
+import com.beginnner.gharaana.Object.ExpertSignupRequest;
 
 public class SignupRequestValidator {
 
@@ -17,13 +17,13 @@ public class SignupRequestValidator {
         return null;
     }
 
-    public static String validateWorkerEmail(WorkerSignupRequest workerSignupRequest) {
+    public static String validateExpertEmail(ExpertSignupRequest expertSignupRequest) {
 
-        if (workerSignupRequest.email.contains("@gmail.com") == false) {
+        if (expertSignupRequest.email.contains("@gmail.com") == false) {
             return "Email invalid";
         }
-        int c = workerSignupRequest.email.length();
-        if (workerSignupRequest.email.substring(c - 10, c).equals("@gmail.com") == false) {
+        int c = expertSignupRequest.email.length();
+        if (expertSignupRequest.email.substring(c - 10, c).equals("@gmail.com") == false) {
             return "Email Invalid";
         }
         return null;
@@ -41,12 +41,12 @@ public class SignupRequestValidator {
         return null;
     }
 
-    public static String validateWorkerPhoneNo(WorkerSignupRequest workerSignupRequest) {
-        if (workerSignupRequest.phoneNo.length() != 10) {
+    public static String validateExpertPhoneNo(ExpertSignupRequest expertSignupRequest) {
+        if (expertSignupRequest.phoneNo.length() != 10) {
             return "Enter PhoneNo of 10 digits";
         }
         for (int i = 0; i < 10; i++) {
-            if (Character.isDigit(workerSignupRequest.phoneNo.charAt(i)) == false) {
+            if (Character.isDigit(expertSignupRequest.phoneNo.charAt(i)) == false) {
                 return "PhoneNo consists only digits";
             }
         }
@@ -66,12 +66,12 @@ public class SignupRequestValidator {
         return null;
     }
 
-    public static String validateWorkerRequest(WorkerSignupRequest workerSignupRequest) {
-        String emailValidate = validateWorkerEmail(workerSignupRequest);
+    public static String validateExpertRequest(ExpertSignupRequest expertSignupRequest) {
+        String emailValidate = validateExpertEmail(expertSignupRequest);
         if (emailValidate != null) {
             return emailValidate;
         }
-        String phoneValidate = validateWorkerPhoneNo(workerSignupRequest);
+        String phoneValidate = validateExpertPhoneNo(expertSignupRequest);
         if (phoneValidate != null) {
             return phoneValidate;
 

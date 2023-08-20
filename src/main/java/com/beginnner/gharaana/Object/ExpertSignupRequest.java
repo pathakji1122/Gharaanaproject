@@ -3,7 +3,7 @@ package com.beginnner.gharaana.Object;
 import com.beginnner.gharaana.Entity.Expertise;
 import com.beginnner.gharaana.Entity.Location;
 
-public class WorkerSignupRequest {
+public class ExpertSignupRequest {
     public String email;
     public String password;
     public String expertName;

@@ -6,7 +6,6 @@ import com.beginnner.gharaana.Object.*;
 import com.beginnner.gharaana.Repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +22,12 @@ public class OrderService {
     UserService userService;
     @Autowired
     OrderRepository orderRepository;
+    @Autowired
+    private  JwtUtil jwtUtil;
+    @Autowired
+    CustomerRepository customerRepository;
+    @Autowired
+    ExpertRepository expertRepository;
 
 
     public String createOrderId(OrderRequest orderRequest) {
@@ -31,8 +36,9 @@ public class OrderService {
 
     }
 
-    public void saveOrder(OrderRequest orderRequest, String orderId) throws ParseException {
-        Customer customer = userService.getCustomerByToken(orderRequest.token);
+    public void saveOrder(OrderRequest orderRequest, String orderId, String token) throws ParseException {
+        String email=jwtUtil.extractUserEmail(token);
+        Customer customer=customerRepository.findOneByEmail(email);
         OrderStatus orderStatus = OrderStatus.NOT_ACCEPTED;
         Times times = placingOrderTimes(orderRequest);
 
@@ -40,14 +46,15 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public AcceptOrderResponse acceptOrder(AcceptOrderRequest acceptOrderRequest) {
+    public AcceptOrderResponse acceptOrder(AcceptOrderRequest acceptOrderRequest, String token) {
         Order order = orderRepository.findByOrderId(acceptOrderRequest.orderId);
         if (order.getOrderStatus().equals(OrderStatus.NOT_ACCEPTED)) {
             order.getTimes().orderAcceptedAt = createOrderTime();
-            String token = acceptOrderRequest.token;
-            Worker worker = userService.getWorkerByToken(token);
+            String email=jwtUtil.extractUserEmail(token);
+
+            Expert expert = expertRepository.findOneByEmail(email);
             order.setOrderStatus(OrderStatus.ACCEPTED);
-            order.setGharaanaAgent(worker.email);
+            order.setGharaanaAgent(expert.email);
             orderRepository.save(order);
             return new AcceptOrderResponse("Order Accepted", order, true);
         } else if (order.getOrderStatus().equals(OrderStatus.ACCEPTED)) {
@@ -58,9 +65,10 @@ public class OrderService {
 
     }
 
-    public StartOrderResponse startOrder(StartOrderRequest startOrderRequest) {
-        Worker worker = userService.getWorkerByToken(startOrderRequest.token);
-        Boolean verifyAgent = verifyGharaanaAgent(startOrderRequest.orderId, worker);
+    public StartOrderResponse startOrder(StartOrderRequest startOrderRequest, String token) {
+        String email=jwtUtil.extractUserEmail(token);
+        Expert expert= expertRepository.findOneByEmail(email);
+        Boolean verifyAgent = verifyGharaanaAgent(startOrderRequest.orderId, expert);
         if (verifyAgent) {
             Order order = orderRepository.findByOrderId(startOrderRequest.orderId);
             Times times = order.getTimes();
@@ -76,21 +84,24 @@ public class OrderService {
 
     }
 
-    public CheckOrdersResponse checkOrders(CheckOrdersRequest checkOrdersRequest) {
-        Worker worker = userService.getWorkerByToken(checkOrdersRequest.token);
-        List<Order> orders = orderRepository.findByLocationAndExpertiseAndOrderStatus(worker.location, worker.expertise, OrderStatus.NOT_ACCEPTED);
+    public CheckOrdersResponse checkOrders(CheckOrdersRequest checkOrdersRequest, String token) {
+        String email=jwtUtil.extractUserEmail(token);
+        Expert expert = expertRepository.findOneByEmail(email);
+        List<Order> orders = orderRepository.findByLocationAndExpertiseAndOrderStatus(expert.location, expert.expertise, OrderStatus.NOT_ACCEPTED);
         return new CheckOrdersResponse("Current Orders Are", orders);
     }
 
-    public MyOrderResponse myOrder(MyOrderRequest myOrderRequest) {
-        String token = myOrderRequest.token;
-        Customer customer = userService.getCustomerByToken(token);
+    public MyOrderResponse myOrder(MyOrderRequest myOrderRequest, String token) {
+        String email=jwtUtil.extractUserEmail(token);
+
+        Customer customer = customerRepository.findOneByEmail(email);
         List<Order> orderList = orderRepository.findByEmail(customer.email);
         return new MyOrderResponse(true, "Your Orders Are", orderList);
     }
 
-    public OrderStatusResponse orderStatus(OrderStatusRequest orderStatusRequest) {
-        Customer customer = userService.getCustomerByToken(orderStatusRequest.token);
+    public OrderStatusResponse orderStatus(OrderStatusRequest orderStatusRequest, String token) {
+        String email=jwtUtil.extractUserEmail(token);
+        Customer customer = customerRepository.findOneByEmail(email);
         Order order = orderRepository.findByOrderId(orderStatusRequest.orderId);
         if (order != null) {
             if (order.getEmail().equals(customer.email)) {
@@ -113,9 +124,10 @@ public class OrderService {
     }
 
 
-    public CompleteOrderResponse completeOrder(CompleteOrderRequest completeOrderRequest) {
-        Worker worker = userService.getWorkerByToken(completeOrderRequest.token);
-        Boolean verifyAgent = verifyGharaanaAgent(completeOrderRequest.orderId, worker);
+    public CompleteOrderResponse completeOrder(CompleteOrderRequest completeOrderRequest, String token) {
+        String email=jwtUtil.extractUserEmail(token);
+       Expert expert = expertRepository.findOneByEmail(email);
+        Boolean verifyAgent = verifyGharaanaAgent(completeOrderRequest.orderId, expert);
         if (verifyAgent) {
             Boolean verifyWorkerOtp = verifyOtp(completeOrderRequest);
             if (verifyWorkerOtp) {
@@ -134,7 +146,7 @@ public class OrderService {
 
     }
 
-    public GetOtpResponse getOtp(GetOtpRequest getOtpRequest) {
+    public GetOtpResponse getOtp(GetOtpRequest getOtpRequest, String token) {
         Otp currentOtp = otpRepository.findOneByOrderId(getOtpRequest.orderId);
         if (currentOtp == null) {
             return new GetOtpResponse(null, "Order id " + getOtpRequest.orderId + " Doesn't exist", false);
@@ -162,15 +174,15 @@ public class OrderService {
 
     }
 
-    public Boolean verifyGharaanaAgent(String orderId, Worker worker) {
+    public Boolean verifyGharaanaAgent(String orderId, Expert expert) {
         Order order = orderRepository.findByOrderId(orderId);
-        if (order.getGharaanaAgent().equals(worker.email)) {
+        if (order.getGharaanaAgent().equals(expert.email)) {
             return true;
         }
         return false;
     }
 
-    public OrderResponse placeOrder(OrderRequest orderRequest) throws ParseException {
+    public OrderResponse placeOrder(OrderRequest orderRequest, String token) throws ParseException {
         try {
             Expertise expertise = Expertise.checkExpertise(valueOf(orderRequest.expertise));
             if (expertise == null) {
@@ -178,7 +190,7 @@ public class OrderService {
                 return new OrderResponse(false, null, response);
             }
             String orderId = createOrderId(orderRequest);
-            saveOrder(orderRequest, orderId);
+            saveOrder(orderRequest, orderId,token);
             OrderResponse orderresponse = new OrderResponse(true, orderId, "Order Successful");
             return orderresponse;
         } catch (ParseException e) {
@@ -187,7 +199,7 @@ public class OrderService {
         }
 
     }
-    public CancelOrderResponse cancelOrder(CancelOrderRequest cancelOrderRequest){
+    public CancelOrderResponse cancelOrder(CancelOrderRequest cancelOrderRequest, String token){
         Order order=orderRepository.findByOrderId(cancelOrderRequest.orderId);
         if(order!=null){
             if(order.getOrderStatus().equals(OrderStatus.CANCELLED)){
