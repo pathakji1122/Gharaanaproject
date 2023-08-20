@@ -5,50 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2f8ac0f-9b24-40b5-807f-ae71dc1daa67" name="Changes" comment="final draft">
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/CorsConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/JwtUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gharaana.iml" beforeDir="false" afterPath="$PROJECT_DIR$/gharaana.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Entity/Expertise.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Entity/Expertise.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Entity/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Entity/Location.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/CustomerSignUpRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/CustomerSignUpRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/LoginResponce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/LoginResponce.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/WorkerSignupRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/WorkerSignupRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Repo/AgentInfoRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Repo/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Repo/OrderRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Repo/OtpRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Repo/OtpRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Repo/WorkerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Repo/WorkerRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Controller/CustomerController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Controller/UserController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Controller/WorkerController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/Customer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/Expertise.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/Location.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/Order$OrderBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/Order.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/OrderStatus.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/Otp.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/ServicePack.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/Times.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/User.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Entity/Worker.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/GharaanaApplication.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Repo/CustomerRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Repo/OrderRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Repo/OtpRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Repo/WorkerRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Service/Auth.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Service/OrderService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Service/UserService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Service/Util.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Validation/OrderRequestValidator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Validation/SignupRequestValidator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/PaymentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/PaymentService.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
