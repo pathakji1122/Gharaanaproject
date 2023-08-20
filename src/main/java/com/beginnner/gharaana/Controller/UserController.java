@@ -7,7 +7,7 @@ import com.beginnner.gharaana.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "https://web1-1.onrender.com")
+
 @RestController
 @RequestMapping(path = "user")
 public class UserController {
