@@ -16,6 +16,9 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowCredentials(true);
 
-
+        registry.addMapping("/customer/signup")
+                .allowedOrigins("https://web1-1.onrender.com")
+                .allowedMethods("POST")
+                .allowCredentials(true);
     }
 }
