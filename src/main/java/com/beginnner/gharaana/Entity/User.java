@@ -9,16 +9,16 @@ public class User {
     public String password;
     public String phoneNo;
     public Location location;
-   public String accountNo;
 
 
-    public User(String name, String email, String password, String phoneNo, Location location,String accountNo) {
+
+    public User(String name, String email, String password, String phoneNo, Location location) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.phoneNo = phoneNo;
         this.location = location;
-        this.accountNo=accountNo;
+
 
     }
 
