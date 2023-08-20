@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f2f8ac0f-9b24-40b5-807f-ae71dc1daa67" name="Changes" comment="deploy0.1" />
+    <list default="true" id="f2f8ac0f-9b24-40b5-807f-ae71dc1daa67" name="Changes" comment="deploy0.1">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/CorsConfig.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
