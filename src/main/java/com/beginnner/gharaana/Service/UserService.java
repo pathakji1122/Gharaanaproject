@@ -16,8 +16,7 @@ import static java.lang.String.valueOf;
 
 @org.springframework.stereotype.Service
 public class UserService {
-    @Autowired
-    AgentInfoRepository agentInfoRepository;
+
     @Autowired
     OrderRepository orderRepository;
     @Autowired
@@ -36,13 +35,13 @@ public class UserService {
         String email = loginRequest.email;
         Customer customer = customerRepository.findOneByEmail(email);
         if (customer == null) {
-            return new LoginResponce(null, false, "User Doesn't Exists");
+            return new LoginResponce(null, false, "User Doesn't Exists",false);
         }
         if (customer.password.equals(password)) {
             String token = auth.generateToken(loginRequest.email);
-            return new LoginResponce(token, false, "Login Successful");
+            return new LoginResponce(token, false, "Login Successful",true);
         } else {
-            return new LoginResponce(null, false, "Wrong Password");
+            return new LoginResponce(null, false, "Wrong Password",false);
         }
     }
 
@@ -51,13 +50,13 @@ public class UserService {
         String email = loginRequest.email;
         Worker worker = workerRepository.findOneByEmail(email);
         if (worker == null) {
-            return new LoginResponce(null, false, "User Doesn't Exists");
+            return new LoginResponce(null, false, "User Doesn't Exists",false);
         }
         if (worker.password.equals(password)) {
             String token = auth.generateToken(loginRequest.email);
-            return new LoginResponce(token, true, "Login Successful");
+            return new LoginResponce(token, true, "Login Successful",true);
         } else {
-            return new LoginResponce(null, false, "Wrong Password");
+            return new LoginResponce(null, false, "Wrong Password",false);
         }
     }
 
@@ -70,10 +69,10 @@ public class UserService {
         if (locationVerify != null) {
             Customer customer = customerRepository.findOneByEmail(customerSignupRequest.email);
             if (customer == null) {
-                String accountNo=paymentService.createPaymentAccount(customerSignupRequest.name,customerSignupRequest.email).accountNo;
-                Customer newCustomer = new Customer(customerSignupRequest.name, customerSignupRequest.email, customerSignupRequest.password, customerSignupRequest.phoneNo,customerSignupRequest.location,accountNo,ServicePack.BASIC);
+                String accountNo=paymentService.createPaymentAccount(customerSignupRequest.customerName,customerSignupRequest.email).accountNo;
+                Customer newCustomer = new Customer(customerSignupRequest.customerName, customerSignupRequest.email, customerSignupRequest.password, customerSignupRequest.phoneNo,customerSignupRequest.location,accountNo,ServicePack.BASIC);
                 saveCustomer(newCustomer);
-                String response = "Welcome To Gharaana " + customerSignupRequest.name;
+                String response = "Welcome To Gharaana " + customerSignupRequest.customerName;
                 return new SignUpResponse(response, true);
             }
 
@@ -98,12 +97,11 @@ public class UserService {
         if (locationVerify != null) {
             Worker worker = workerRepository.findOneByEmail(workerSignupRequest.email);
             if (worker == null) {
-                String accountNo=paymentService.createPaymentAccount(workerSignupRequest.name,workerSignupRequest.email).accountNo;
-                Worker newSaveWorker = new Worker(workerSignupRequest.name, workerSignupRequest.email, workerSignupRequest.password, workerSignupRequest.phoneNo, workerSignupRequest.location,accountNo, workerSignupRequest.expertise);
+                String accountNo=paymentService.createPaymentAccount(workerSignupRequest.expertName,workerSignupRequest.email).accountNo;
+                Worker newSaveWorker = new Worker(workerSignupRequest.expertName, workerSignupRequest.email, workerSignupRequest.password, workerSignupRequest.phoneNo, workerSignupRequest.location,accountNo, workerSignupRequest.expertise);
                 saveWorker(newSaveWorker);
-                AgentInfo agentInfo=new AgentInfo(workerSignupRequest.name,workerSignupRequest.email,workerSignupRequest.expertise,0,0);
-                agentInfoRepository.save(agentInfo);
-                String response = "Welcome to Gharaana " + workerSignupRequest.name;
+
+                String response = "Welcome to Gharaana " + workerSignupRequest.expertName;
                 return new SignUpResponse(response, true);
             }
 
@@ -197,27 +195,7 @@ public class UserService {
         CheckBalanceGateWayResponse checkBalanceGateWayResponse= paymentService.checkBalance(customer.email);
         return new CheckBalanceResponse(checkBalanceGateWayResponse.balance,checkBalanceGateWayResponse.status);
     }
-    public RatingResponse rating(RatingRequest ratingRequest){
-        Boolean validRating=validRatingPoint(ratingRequest);
-        if(validRating==false){
-            return new RatingResponse("Please Rate Between 1-10",false);
-        }
-        if(ratingRequest.ratingPoint>10||ratingRequest.ratingPoint<1){
-            return new RatingResponse("Please Rate between 1-10",false);
-        }
 
-        Order order=orderRepository.findByOrderId(ratingRequest.orderId);
-        AgentInfo agentInfo=agentInfoRepository.findOneByEmail(order.getGharaanaAgent());
-        Customer customer=getCustomerByToken(ratingRequest.token);
-        if(order.getEmail().equals(customer.email)){
-            agentInfo.rating= (agentInfo.rating+ ratingRequest.ratingPoint)/agentInfo.totalOrders;
-            agentInfoRepository.save(agentInfo);
-            return new RatingResponse("Thank You For Rating",true);
-
-
-        }
-        return new RatingResponse("Wrong Request",false);
-    }
 
     public boolean validRatingPoint(RatingRequest ratingRequest){
         try {

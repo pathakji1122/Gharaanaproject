@@ -6,7 +6,9 @@ public enum Expertise {
     DELIVERY,
     DRIVER,
     MECHANIC,
+    ENGINEER,
     ASSISTANT;
+
     @JsonCreator
     public static Expertise checkExpertise(String value) {
 

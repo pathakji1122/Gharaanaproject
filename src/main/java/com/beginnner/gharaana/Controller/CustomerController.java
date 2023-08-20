@@ -132,14 +132,6 @@ public class CustomerController {
         return new CheckBalanceResponse(null, false);
     }
 
-    @PostMapping(path = "rateagent")
-    public RatingResponse rateAgent(@RequestBody RatingRequest ratingRequest) {
-        Boolean verified = auth.verifyCustomerToken(ratingRequest.token);
-        if (verified) {
-            return userService.rating(ratingRequest);
-        }
-        return new RatingResponse("Invalid Token", false);
 
-    }
 }
 

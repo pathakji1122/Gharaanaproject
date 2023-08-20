@@ -16,8 +16,7 @@ import static java.lang.String.valueOf;
 
 @org.springframework.stereotype.Service
 public class OrderService {
-    @Autowired
-    AgentInfoRepository agentInfoRepository;
+
     @Autowired
     OtpRepository otpRepository;
     @Autowired
@@ -126,9 +125,7 @@ public class OrderService {
                 times.completeTime = createOrderTime();
                 order.setTimes(times);
                 order.setOrderStatus(OrderStatus.COMPLETED);
-                AgentInfo agentInfo=agentInfoRepository.findOneByEmail(order.getEmail());
-                agentInfo.totalOrders=agentInfo.totalOrders+1;
-                agentInfoRepository.save(agentInfo);
+
                 orderRepository.save(order);
                 return new CompleteOrderResponse("Order Completed", true);
             }

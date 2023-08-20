@@ -4,7 +4,7 @@ package com.beginnner.gharaana.Entity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum Location {
-    DELHI, JAIPUR, GUNTAKAL, MUMBAI, HYDERABAD;
+    DELHI, JAIPUR, GUNTAKAL, MUMBAI, BANGALORE,HYDERABAD;
 
    @JsonCreator
     public static Location getLocationFromCode(String value) {
