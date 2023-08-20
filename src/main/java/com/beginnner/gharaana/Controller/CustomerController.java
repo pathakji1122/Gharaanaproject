@@ -17,8 +17,9 @@ public class CustomerController {
     OrderService orderService;
     @Autowired
     UserService userService;
+
     @Autowired
-    Auth auth;
+    private JwtUtil jwtUtil;
 
     @PostMapping(path = "signup")
     public SignUpResponse signUp(@RequestBody CustomerSignUpRequest customerSignUpRequest) throws IOException, InterruptedException {
@@ -26,9 +27,9 @@ public class CustomerController {
     }
 
     @DeleteMapping("delete")
-    public DeleteCustomerResponse deleteCustomer(@RequestBody DeleteCustomerRequest deleteCustomerRequest) {
-        String token = deleteCustomerRequest.token;
-        Boolean verified = auth.verifyCustomerToken(token);
+    public DeleteCustomerResponse deleteCustomer( @RequestHeader("Authorization") String authorizationHeader,@RequestBody DeleteCustomerRequest deleteCustomerRequest) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        Boolean verified = jwtUtil.isTokenValid(token);
         if (verified) {
             return userService.deleteCustomer(deleteCustomerRequest.email);
         }
@@ -36,35 +37,35 @@ public class CustomerController {
     }
 
     @PostMapping(path = "myorder")
-    public MyOrderResponse myOrder(@RequestBody MyOrderRequest myOrderRequest) {
-        String token = myOrderRequest.token;
-        Boolean verify = auth.verifyCustomerToken(myOrderRequest.token);
+    public MyOrderResponse myOrder( @RequestHeader("Authorization") String authorizationHeader,@RequestBody MyOrderRequest myOrderRequest) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        Boolean verify = jwtUtil.isTokenValid(token);
         if (verify) {
-            return orderService.myOrder(myOrderRequest);
+            return orderService.myOrder(myOrderRequest,token);
         }
         return new MyOrderResponse(false, "Invalid Token", null);
     }
 
     @PostMapping(path = "orderstatus")
-    public OrderStatusResponse orderStatus(@RequestBody OrderStatusRequest orderStatusRequest) {
-        String token = orderStatusRequest.token;
-        Boolean verify = auth.verifyCustomerToken(token);
+    public OrderStatusResponse orderStatus(@RequestHeader("Authorization") String authorizationHeader,@RequestBody OrderStatusRequest orderStatusRequest) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        Boolean verify = jwtUtil.isTokenValid(token);
         if (verify) {
-            return orderService.orderStatus(orderStatusRequest);
+            return orderService.orderStatus(orderStatusRequest,token);
         }
         return new OrderStatusResponse(false, "Invalid Token", null);
     }
 
     @PostMapping(path = "placeorder")
-    public OrderResponse order(@RequestBody OrderRequest orderRequest) throws ParseException {
+    public OrderResponse order(@RequestHeader("Authorization") String authorizationHeader,@RequestBody OrderRequest orderRequest) throws ParseException {
         String validationError = OrderRequestValidator.validate(orderRequest);
         if (validationError != null) {
             return new OrderResponse(false, null, validationError);
         }
-        String token = orderRequest.token;
-        Boolean verified = auth.verifyCustomerToken(token);
+        String token = authorizationHeader.replace("Bearer ", "");
+        Boolean verified = jwtUtil.isTokenValid(token);
         if (verified) {
-            return orderService.placeOrder(orderRequest);
+            return orderService.placeOrder(orderRequest,token);
         }
         OrderResponse orderResponse = new OrderResponse(false, null, "Invalid Token");
         return orderResponse;
@@ -72,31 +73,33 @@ public class CustomerController {
 
 
     @PostMapping(path = "getotp")
-    public GetOtpResponse getOtp(@RequestBody GetOtpRequest getOtpRequest) {
-        String token = getOtpRequest.token;
-        Boolean verified = auth.verifyCustomerToken(token);
+    public GetOtpResponse getOtp(@RequestHeader("Authorization") String authorizationHeader,@RequestBody GetOtpRequest getOtpRequest) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        Boolean verified = jwtUtil.isTokenValid(token);
         if (verified) {
-            return orderService.getOtp(getOtpRequest);
+            return orderService.getOtp(getOtpRequest,token);
         }
         return new GetOtpResponse(null, "Invalid Token", false);
 
     }
 
     @PostMapping(path = "cancelorder")
-    public CancelOrderResponse cancelOrder(@RequestBody CancelOrderRequest cancelOrderRequest) {
-        String token = cancelOrderRequest.token;
-        Boolean verified = auth.verifyCustomerToken(token);
+    public CancelOrderResponse cancelOrder(@RequestHeader("Authorization") String authorizationHeader,@RequestBody CancelOrderRequest cancelOrderRequest) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        Boolean verified = jwtUtil.isTokenValid(token);
         if (verified) {
-            return orderService.cancelOrder(cancelOrderRequest);
+            return orderService.cancelOrder(cancelOrderRequest,token);
         }
         return new CancelOrderResponse("Invalid Token", false, null);
     }
 
-    @PostMapping(path = "upgradeaccount")
-    public UpgradeAccountResponse upgradeAccount(@RequestBody UpgradeAccountRequest upgradeAccountRequest) throws IOException, InterruptedException {
-        Boolean verified = auth.verifyCustomerToken(upgradeAccountRequest.token);
+    @GetMapping(path = "upgradeaccount")
+    public UpgradeAccountResponse upgradeAccount(@RequestHeader("Authorization") String authorizationHeader, @RequestBody UpgradeAccountRequest upgradeAccountRequest) throws IOException, InterruptedException {
+
+        String token = authorizationHeader.replace("Bearer ", "");
+        Boolean verified=jwtUtil.isTokenValid(token);
         if (verified) {
-            return userService.upgradeAccount(upgradeAccountRequest);
+            return userService.upgradeAccount(upgradeAccountRequest,token);
         }
         return new UpgradeAccountResponse("Invalid Token", false, null);
 

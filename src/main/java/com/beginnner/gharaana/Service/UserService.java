@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.IOException;
 import java.util.List;
 
+import static java.lang.String.join;
 import static java.lang.String.valueOf;
 
 @org.springframework.stereotype.Service
@@ -21,11 +22,11 @@ public class UserService {
     OrderRepository orderRepository;
 
     @Autowired
-    Auth auth;
+    private JwtUtil jwtUtil;
     @Autowired
     CustomerRepository customerRepository;
     @Autowired
-    WorkerRepository workerRepository;
+   ExpertRepository expertRepository;
 
 
 
@@ -37,22 +38,22 @@ public class UserService {
             return new LoginResponce(null, false, "User Doesn't Exists",false);
         }
         if (customer.password.equals(password)) {
-            String token = auth.generateToken(loginRequest.email);
+            String token = jwtUtil.generateToken(email);
             return new LoginResponce(token, false, "Login Successful",true);
         } else {
             return new LoginResponce(null, false, "Wrong Password",false);
         }
     }
 
-    public LoginResponce loginWorkerVerify(LoginRequest loginRequest) {
+    public LoginResponce loginExpertVerify(LoginRequest loginRequest) {
         String password = loginRequest.password;
         String email = loginRequest.email;
-        Worker worker = workerRepository.findOneByEmail(email);
-        if (worker == null) {
+       Expert expert = expertRepository.findOneByEmail(email);
+        if (expert == null) {
             return new LoginResponce(null, false, "User Doesn't Exists",false);
         }
-        if (worker.password.equals(password)) {
-            String token = auth.generateToken(loginRequest.email);
+        if (expert.password.equals(password)) {
+            String token = jwtUtil.generateToken(email);
             return new LoginResponce(token, true, "Login Successful",true);
         } else {
             return new LoginResponce(null, false, "Wrong Password",false);
@@ -87,19 +88,19 @@ public class UserService {
 
     }
 
-    public SignUpResponse registerWorker(WorkerSignupRequest workerSignupRequest) throws IOException, InterruptedException {
-        String validWorkerData = SignupRequestValidator.validateWorkerRequest(workerSignupRequest);
+    public SignUpResponse registerExpert(ExpertSignupRequest expertSignupRequest) throws IOException, InterruptedException {
+        String validWorkerData = SignupRequestValidator.validateExpertRequest(expertSignupRequest);
         if (validWorkerData != null) {
             return new SignUpResponse(validWorkerData, false);
         }
-        Location locationVerify = Location.getLocationFromCode(valueOf(workerSignupRequest.location));
+        Location locationVerify = Location.getLocationFromCode(valueOf(expertSignupRequest.location));
         if (locationVerify != null) {
-            Worker worker = workerRepository.findOneByEmail(workerSignupRequest.email);
-            if (worker == null) {
-                Worker newSaveWorker = new Worker(workerSignupRequest.expertName, workerSignupRequest.email, workerSignupRequest.password, workerSignupRequest.phoneNo, workerSignupRequest.location, workerSignupRequest.expertise);
-                saveWorker(newSaveWorker);
+            Expert expert =expertRepository.findOneByEmail(expertSignupRequest.email);
+            if (expert == null) {
+                Expert newSaveExpert = new Expert(expertSignupRequest.expertName, expertSignupRequest.email, expertSignupRequest.password, expertSignupRequest.phoneNo, expertSignupRequest.location, expertSignupRequest.expertise);
+                saveExpert(newSaveExpert);
 
-                String response = "Welcome to Gharaana " + workerSignupRequest.expertName;
+                String response = "Welcome to Gharaana " + expertSignupRequest.expertName;
                 return new SignUpResponse(response, true);
             }
 
@@ -110,13 +111,13 @@ public class UserService {
         return new SignUpResponse(response, false);
     }
 
-    public void saveWorker(Worker worker) {
-        workerRepository.save(worker);
+    public void saveExpert(Expert expert) {
+        expertRepository.save(expert);
     }
 
-    public boolean isWorker(String email) {
-        Worker worker = workerRepository.findOneByEmail(email);
-        if (worker != null) {
+    public boolean isExpert(String email) {
+        Expert expert = expertRepository.findOneByEmail(email);
+        if (expert != null) {
             return true;
         } else {
             return false;
@@ -142,17 +143,15 @@ public class UserService {
 
 
     public Customer getCustomerByToken(String token) {
-        String[] splitToken = token.split("##", 4);
-        String email = splitToken[0] + "@gmail.com";
+       String email= jwtUtil.extractUserEmail(token);
         Customer customer = customerRepository.findOneByEmail(email);
         return customer;
     }
 
-    public Worker getWorkerByToken(String token) {
-        String[] splitToken = token.split("##", 4);
-        String email = splitToken[0] + "@gmail.com";
-        Worker worker = workerRepository.findOneByEmail(email);
-        return worker;
+    public Expert getExpertByToken(String token) {
+        String email= jwtUtil.extractUserEmail(token);
+        Expert expert = expertRepository.findOneByEmail(email);
+        return expert;
     }
 
     public DeleteCustomerResponse deleteCustomer(String email) {
@@ -169,8 +168,10 @@ public class UserService {
         return new DeleteCustomerResponse(false, "Customer Doesn't Exists");
 
     }
-    public UpgradeAccountResponse upgradeAccount(UpgradeAccountRequest upgradeAccountRequest) throws IOException, InterruptedException {
-        Customer customer=getCustomerByToken(upgradeAccountRequest.token);
+    public UpgradeAccountResponse upgradeAccount(UpgradeAccountRequest upgradeAccountRequest, String token) throws IOException, InterruptedException {
+        String email= jwtUtil.extractUserEmail(token);
+        Customer customer=customerRepository.findOneByEmail(email);
+
         if(customer.servicePack.equals(ServicePack.BASIC)){
                 customer.servicePack=ServicePack.PREMIUM;
                 customerRepository.save(customer);

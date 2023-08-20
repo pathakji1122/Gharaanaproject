@@ -14,7 +14,8 @@ public class CorsConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("https://web1-1.onrender.com/") // Replace with your frontend's origin
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowCredentials(true)
-                .maxAge(3600);
+                .allowCredentials(true);
+
+
     }
 }
