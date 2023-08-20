@@ -69,7 +69,7 @@ public class UserService {
             Customer customer = customerRepository.findOneByEmail(customerSignupRequest.email);
             if (customer == null) {
 
-                Customer newCustomer = new Customer(customerSignupRequest.customerName, customerSignupRequest.email, customerSignupRequest.password, customerSignupRequest.phoneNo,customerSignupRequest.location,"11",ServicePack.BASIC);
+                Customer newCustomer = new Customer(customerSignupRequest.customerName, customerSignupRequest.email, customerSignupRequest.password, customerSignupRequest.phoneNo,customerSignupRequest.location,ServicePack.BASIC);
                 saveCustomer(newCustomer);
                 String response = "Welcome To Gharaana " + customerSignupRequest.customerName;
                 return new SignUpResponse(response, true);
