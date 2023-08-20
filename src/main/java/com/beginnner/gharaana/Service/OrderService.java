@@ -206,14 +206,14 @@ public class OrderService {
 
 
     }
-    public OrderPaymentResponse orderPayment(OrderPaymentRequest orderPaymentRequest) throws IOException, InterruptedException {
-        Order order=orderRepository.findByOrderId(orderPaymentRequest.orderId);
-        String customerEmail=order.getEmail();
-      //  Customer customer=customerRepository.findOneByEmail(order.getEmail());
-        String agentEmail=order.getGharaanaAgent();
-
-        String amount=order.getPrice().toString();
-        OrderPaymentGateWayResponse orderPaymentGateWayResponse=paymentService.orderPayment(customerEmail,agentEmail,amount);
-        return new OrderPaymentResponse(orderPaymentGateWayResponse.response,orderPaymentGateWayResponse.status);
-    }
+//    public OrderPaymentResponse orderPayment(OrderPaymentRequest orderPaymentRequest) throws IOException, InterruptedException {
+//        Order order=orderRepository.findByOrderId(orderPaymentRequest.orderId);
+//        String customerEmail=order.getEmail();
+//      //  Customer customer=customerRepository.findOneByEmail(order.getEmail());
+//        String agentEmail=order.getGharaanaAgent();
+//
+//        String amount=order.getPrice().toString();
+//       // OrderPaymentGateWayResponse orderPaymentGateWayResponse=paymentService.orderPayment(customerEmail,agentEmail,amount);
+//        return new OrderPaymentResponse(orderPaymentGateWayResponse.response,orderPaymentGateWayResponse.status);
+//    }
 }

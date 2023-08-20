@@ -102,35 +102,35 @@ public class CustomerController {
 
     }
 
-    @PostMapping(path = "addbalance")
-    public AddBalanceResponse addBalance(@RequestBody AddBalanceRequest addBalanceRequest) throws IOException, InterruptedException {
-        String token = addBalanceRequest.token;
-        Boolean verified = auth.verifyCustomerToken(token);
-        if (verified) {
-            return userService.addBalance(addBalanceRequest);
+//    @PostMapping(path = "addbalance")
+//    public AddBalanceResponse addBalance(@RequestBody AddBalanceRequest addBalanceRequest) throws IOException, InterruptedException {
+//        String token = addBalanceRequest.token;
+//        Boolean verified = auth.verifyCustomerToken(token);
+//        if (verified) {
+//            return userService.addBalance(addBalanceRequest);
+//
+//        }
+//        return new AddBalanceResponse("Invalid token", false);
+//    }
 
-        }
-        return new AddBalanceResponse("Invalid token", false);
-    }
+//    @PostMapping(path = "orderpayment")
+//    public OrderPaymentResponse orderPayment(@RequestBody OrderPaymentRequest orderPaymentRequest) throws IOException, InterruptedException {
+//        String token = orderPaymentRequest.token;
+//        Boolean verified = auth.verifyCustomerToken(token);
+//        if (verified) {
+//            return orderService.orderPayment(orderPaymentRequest);
+//        }
+//        return new OrderPaymentResponse("Invalid Token", false);
+//    }
 
-    @PostMapping(path = "orderpayment")
-    public OrderPaymentResponse orderPayment(@RequestBody OrderPaymentRequest orderPaymentRequest) throws IOException, InterruptedException {
-        String token = orderPaymentRequest.token;
-        Boolean verified = auth.verifyCustomerToken(token);
-        if (verified) {
-            return orderService.orderPayment(orderPaymentRequest);
-        }
-        return new OrderPaymentResponse("Invalid Token", false);
-    }
-
-    @PostMapping(path = "checkbalance")
-    public CheckBalanceResponse checkBalance(@RequestBody CheckBalanceRequest checkBalanceRequest) throws IOException, InterruptedException {
-        boolean verified = auth.verifyCustomerToken(checkBalanceRequest.token);
-        if (verified) {
-            return userService.checkBalance(checkBalanceRequest);
-        }
-        return new CheckBalanceResponse(null, false);
-    }
+//    @PostMapping(path = "checkbalance")
+//    public CheckBalanceResponse checkBalance(@RequestBody CheckBalanceRequest checkBalanceRequest) throws IOException, InterruptedException {
+//        boolean verified = auth.verifyCustomerToken(checkBalanceRequest.token);
+//        if (verified) {
+//            return userService.checkBalance(checkBalanceRequest);
+//        }
+//        return new CheckBalanceResponse(null, false);
+//    }
 
 
 }
