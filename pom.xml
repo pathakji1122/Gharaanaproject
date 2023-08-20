@@ -90,7 +90,7 @@
 			</plugin>
 		</plugins>
         <finalName>
-			gharaana-release
+			gharaana
 		</finalName>
 	</build>
 
