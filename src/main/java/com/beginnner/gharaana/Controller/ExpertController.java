@@ -6,20 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-@CrossOrigin(
-        origins = {
-                "http://localhost:3000",
-                "https://web1-1.onrender.com/"
-
-        },
-        methods = {
-                RequestMethod.OPTIONS,
-                RequestMethod.GET,
-                RequestMethod.PUT,
-                RequestMethod.DELETE,
-                RequestMethod.POST
-        })
-
+@CrossOrigin(origins = "https://web1-1.onrender.com")
 
 
 @RestController
