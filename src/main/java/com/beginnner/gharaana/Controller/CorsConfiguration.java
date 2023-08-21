@@ -12,8 +12,8 @@ public class CorsConfiguration implements WebMvcConfigurer {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
-            .allowedOrigins("*") // Replace with your frontend's origin
-            .allowedMethods("GET", "POST", "PUT", "DELETE")
+            .allowedOrigins("https://web1-1.onrender.com/register") // Replace with your frontend's origin
+            .allowedMethods("POST")
             .allowedHeaders("*")
             .allowCredentials(true);
 
