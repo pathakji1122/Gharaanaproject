@@ -36,12 +36,12 @@ public class CustomerController {
         return new DeleteCustomerResponse(false, "Invalid Token");
     }
 
-    @PostMapping(path = "myorder")
-    public MyOrderResponse myOrder( @RequestHeader("Authorization") String authorizationHeader,@RequestBody MyOrderRequest myOrderRequest) {
+    @GetMapping(path = "myorder")
+    public MyOrderResponse myOrder( @RequestHeader("Authorization") String authorizationHeader) {
         String token = authorizationHeader.replace("Bearer ", "");
         Boolean verify = jwtUtil.isTokenValid(token);
         if (verify) {
-            return orderService.myOrder(myOrderRequest,token);
+            return orderService.myOrder(token);
         }
         return new MyOrderResponse(false, "Invalid Token", null);
     }
@@ -58,10 +58,7 @@ public class CustomerController {
 
     @PostMapping(path = "placeorder")
     public OrderResponse order(@RequestHeader("Authorization") String authorizationHeader,@RequestBody OrderRequest orderRequest) throws ParseException {
-        String validationError = OrderRequestValidator.validate(orderRequest);
-        if (validationError != null) {
-            return new OrderResponse(false, null, validationError);
-        }
+
         String token = authorizationHeader.replace("Bearer ", "");
         Boolean verified = jwtUtil.isTokenValid(token);
         if (verified) {
@@ -93,7 +90,7 @@ public class CustomerController {
         return new CancelOrderResponse("Invalid Token", false, null);
     }
 
-    @GetMapping(path = "upgradeaccount")
+    @PostMapping(path = "upgradeaccount")
     public UpgradeAccountResponse upgradeAccount(@RequestHeader("Authorization") String authorizationHeader, @RequestBody UpgradeAccountRequest upgradeAccountRequest) throws IOException, InterruptedException {
 
         String token = authorizationHeader.replace("Bearer ", "");
@@ -103,6 +100,16 @@ public class CustomerController {
         }
         return new UpgradeAccountResponse("Invalid Token", false, null);
 
+    }
+    @GetMapping(path="servicepack")
+    public Boolean servicePack(@RequestHeader("Authorization") String authorizationHeader){
+        String token = authorizationHeader.replace("Bearer ", "");
+        Boolean verified=jwtUtil.isTokenValid(token);
+        if (verified) {
+            return userService.servicePack(token);
+        }
+
+        return null;
     }
 
 

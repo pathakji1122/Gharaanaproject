@@ -14,10 +14,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
         private Expertise expertise;
         private Integer price;
         private OrderStatus orderStatus;
-        private String gharaanaAgent;
+        private String expert;
         private Times times;
 
-        public Order(String email, String name, Location location, Expertise expertise, Integer price, OrderStatus orderStatus, String orderId, String gharanaAgent, Times times) {
+        public Order(String email, String name, Location location, Expertise expertise, Integer price, OrderStatus orderStatus, String orderId, String expert, Times times) {
             this.email = email;
             this.name = name;
             this.location = location;
@@ -25,7 +25,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
             this.price = price;
             this.orderStatus = orderStatus;
             this.orderId = orderId;
-            this.gharaanaAgent = gharanaAgent;
+            this.expert = expert;
             this.times = times;
         }
 
@@ -82,12 +82,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
             return orderId;
         }
 
-        public String getGharaanaAgent() {
-            return gharaanaAgent;
+        public String getExpert() {
+            return expert;
         }
 
-        public void setGharaanaAgent(String gharaanaAgent) {
-            this.gharaanaAgent = gharaanaAgent;
+        public void setExpert(String expert) {
+            this.expert = expert;
         }
 
         public Times getTimes() {
