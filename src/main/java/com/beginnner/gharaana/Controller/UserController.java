@@ -19,10 +19,11 @@ public class UserController {
 
     @PostMapping("login")
     public LoginResponce login(@RequestBody LoginRequest loginRequest) {
-        Boolean workerVerification = userService.isExpert(loginRequest.email);
-        if (workerVerification) {
+        Boolean expertVerification = userService.isExpert(loginRequest.email);
+        if (expertVerification) {
             return userService.loginExpertVerify(loginRequest);
         }
         return userService.loginCustomerVerify(loginRequest);
     }
+
 }

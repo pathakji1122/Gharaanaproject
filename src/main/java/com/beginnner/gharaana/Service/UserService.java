@@ -97,8 +97,8 @@ public class UserService {
         if (locationVerify != null) {
             Expert expert =expertRepository.findOneByEmail(expertSignupRequest.email);
             if (expert == null) {
-                Expert newSaveExpert = new Expert(expertSignupRequest.expertName, expertSignupRequest.email, expertSignupRequest.password, expertSignupRequest.phoneNo, expertSignupRequest.location, expertSignupRequest.expertise);
-                saveExpert(newSaveExpert);
+                Expert newExpert = new Expert(expertSignupRequest.expertName, expertSignupRequest.email, expertSignupRequest.password, expertSignupRequest.phoneNo, expertSignupRequest.location, expertSignupRequest.expertise);
+                saveExpert(newExpert);
 
                 String response = "Welcome to Gharaana " + expertSignupRequest.expertName;
                 return new SignUpResponse(response, true);
@@ -179,6 +179,14 @@ public class UserService {
             }
 
         return new UpgradeAccountResponse("You Are Already Premium Customer",true,ServicePack.PREMIUM);
+    }
+    public Boolean servicePack(String token){
+        String email=jwtUtil.extractUserEmail(token);
+        Customer customer=customerRepository.findOneByEmail(email);
+        if(customer.servicePack==ServicePack.BASIC){
+            return false;
+        }
+        return true;
     }
 
 

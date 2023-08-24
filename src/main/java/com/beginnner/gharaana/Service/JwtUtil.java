@@ -12,7 +12,7 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    private final String secret = "your-secret-key"; // Change this to your own secret key
+    private final String secret = "gharaanawebversionforcheckherevasudevkrishnaradhekishori"; // Change this to your own secret key
     private final long expirationTimeInMillis = 86400000; // 24 hours in milliseconds
 
     public String generateToken(String email) {
@@ -41,7 +41,7 @@ public class JwtUtil {
     public String extractUserEmail(String token) {
         try {
             Claims claims = extractClaims(token);
-            return claims.get("email", String.class);
+            return claims.getSubject();
         } catch (Exception e) {
             return null; // Handle extraction error or missing claim as needed
         }

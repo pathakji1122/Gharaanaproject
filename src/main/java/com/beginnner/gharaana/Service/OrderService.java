@@ -54,7 +54,7 @@ public class OrderService {
 
             Expert expert = expertRepository.findOneByEmail(email);
             order.setOrderStatus(OrderStatus.ACCEPTED);
-            order.setGharaanaAgent(expert.email);
+            order.setExpert(expert.email);
             orderRepository.save(order);
             return new AcceptOrderResponse("Order Accepted", order, true);
         } else if (order.getOrderStatus().equals(OrderStatus.ACCEPTED)) {
@@ -91,7 +91,7 @@ public class OrderService {
         return new CheckOrdersResponse("Current Orders Are", orders);
     }
 
-    public MyOrderResponse myOrder(MyOrderRequest myOrderRequest, String token) {
+    public MyOrderResponse myOrder(String token) {
         String email=jwtUtil.extractUserEmail(token);
 
         Customer customer = customerRepository.findOneByEmail(email);
@@ -105,7 +105,7 @@ public class OrderService {
         Order order = orderRepository.findByOrderId(orderStatusRequest.orderId);
         if (order != null) {
             if (order.getEmail().equals(customer.email)) {
-                OrderStatusResponse orderStatusresponse = new OrderStatusResponse(true, "Your Gharaana Agent is " + order.getGharaanaAgent(), order);
+                OrderStatusResponse orderStatusresponse = new OrderStatusResponse(true, "Your Gharaana Agent is " + order.getExpert(), order);
                 return orderStatusresponse;
             }
             return new OrderStatusResponse(false, "Enter Correct order Id", null);
@@ -176,7 +176,7 @@ public class OrderService {
 
     public Boolean verifyGharaanaAgent(String orderId, Expert expert) {
         Order order = orderRepository.findByOrderId(orderId);
-        if (order.getGharaanaAgent().equals(expert.email)) {
+        if (order.getExpert().equals(expert.email)) {
             return true;
         }
         return false;
@@ -184,7 +184,7 @@ public class OrderService {
 
     public OrderResponse placeOrder(OrderRequest orderRequest, String token) throws ParseException {
         try {
-            Expertise expertise = Expertise.checkExpertise(valueOf(orderRequest.expertise));
+            Expertise expertise = orderRequest.expertise;
             if (expertise == null) {
                 String response = userService.availableExpertises();
                 return new OrderResponse(false, null, response);
