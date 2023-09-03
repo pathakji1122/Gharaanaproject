@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.String.valueOf;
@@ -84,11 +85,16 @@ public class OrderService {
 
     }
 
-    public CheckOrdersResponse checkOrders(CheckOrdersRequest checkOrdersRequest, String token) {
+    public CheckOrdersResponse checkOrders(String token) {
         String email=jwtUtil.extractUserEmail(token);
         Expert expert = expertRepository.findOneByEmail(email);
-        List<Order> orders = orderRepository.findByLocationAndExpertiseAndOrderStatus(expert.location, expert.expertise, OrderStatus.NOT_ACCEPTED);
-        return new CheckOrdersResponse("Current Orders Are", orders);
+        List<Order>orderList=new ArrayList<>();
+        for(int i = 0;i<expert.expertise.size();i++){
+             List<Order>orders=orderRepository.findByLocationAndExpertiseAndOrderStatus(expert.location,expert.expertise.get(i),OrderStatus.NOT_ACCEPTED);
+             orderList.addAll(orders);
+        }
+
+        return new CheckOrdersResponse("Current Orders Are", orderList);
     }
 
     public MyOrderResponse myOrder(String token) {
@@ -109,9 +115,8 @@ public class OrderService {
                 return orderStatusresponse;
             }
             return new OrderStatusResponse(false, "Enter Correct order Id", null);
-        } else {
-            return new OrderStatusResponse(false, "Enter Correct OrderId", null);
         }
+        return new OrderStatusResponse(false,"No Valid Order ",null);
     }
 
 
@@ -136,7 +141,8 @@ public class OrderService {
                 times.completeTime = createOrderTime();
                 order.setTimes(times);
                 order.setOrderStatus(OrderStatus.COMPLETED);
-
+                expert.orders=expert.orders+1;
+                expertRepository.save(expert);
                 orderRepository.save(order);
                 return new CompleteOrderResponse("Order Completed", true);
             }
@@ -216,6 +222,11 @@ public class OrderService {
         return new CancelOrderResponse("OrderId Doesnt Exist",false,null);
 
 
+    }
+    public MyOrderResponse myOrderAsExpert(String token){
+        String email=jwtUtil.extractUserEmail(token);
+        List<Order>orderList=orderRepository.findByExpert(email);
+        return new MyOrderResponse(true,"Orders",orderList);
     }
 
 }

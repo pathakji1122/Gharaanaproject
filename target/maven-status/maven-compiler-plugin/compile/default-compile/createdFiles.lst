@@ -1,5 +1,6 @@
 com\beginnner\gharaana\Object\CancelOrderRequest.class
 com\beginnner\gharaana\Object\DeleteCustomerRequest.class
+com\beginnner\gharaana\Object\ExpertProfileResponse.class
 com\beginnner\gharaana\Object\SignUpResponse.class
 com\beginnner\gharaana\Object\CancelOrderResponse.class
 com\beginnner\gharaana\Entity\OrderStatus.class
@@ -12,7 +13,6 @@ com\beginnner\gharaana\Controller\UserController.class
 com\beginnner\gharaana\Controller\CustomerController.class
 com\beginnner\gharaana\Entity\Order.class
 com\beginnner\gharaana\Object\RatingResponse.class
-com\beginnner\gharaana\Controller\CorsConfig.class
 com\beginnner\gharaana\Object\StartOrderRequest.class
 com\beginnner\gharaana\CorsConfig.class
 com\beginnner\gharaana\Object\OrderResponse.class
@@ -25,6 +25,7 @@ com\beginnner\gharaana\Object\LoginRequest.class
 com\beginnner\gharaana\Object\CompleteOrderRequest.class
 com\beginnner\gharaana\Entity\Times.class
 com\beginnner\gharaana\Service\OrderService.class
+com\beginnner\gharaana\Object\CustomerProfileResponse.class
 com\beginnner\gharaana\Object\MyOrderResponse.class
 com\beginnner\gharaana\Repo\ExpertRepository.class
 com\beginnner\gharaana\Object\AcceptOrderResponse.class
@@ -54,4 +55,4 @@ com\beginnner\gharaana\Entity\ServicePack.class
 com\beginnner\gharaana\Repo\OtpRepository.class
 com\beginnner\gharaana\Entity\Expert.class
 com\beginnner\gharaana\Validation\SignupRequestValidator.class
-com\beginnner\gharaana\Object\CheckOrdersRequest.class
+com\beginnner\gharaana\Controller\PaymentController.class

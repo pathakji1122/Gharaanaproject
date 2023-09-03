@@ -111,6 +111,25 @@ public class CustomerController {
 
         return null;
     }
+    @PostMapping(path = "rate")
+    public RatingResponse rating(@RequestHeader("Authorization") String authorizationHeader,@RequestBody RatingRequest ratingRequest){
+        String token = authorizationHeader.replace("Bearer ", "");
+        Boolean verified=jwtUtil.isTokenValid(token);
+        if (verified) {
+            return userService.rating(token,ratingRequest);
+        }
+        return new RatingResponse("Invalid",false);
+    }
+    @GetMapping(path="profile")
+    public CustomerProfileResponse profile(@RequestHeader("Authorization") String authorizationHeader){
+        String token = authorizationHeader.replace("Bearer ", "");
+        Boolean verified=jwtUtil.isTokenValid(token);
+        if(verified){
+           return userService.customerView(token);
+        }
+        return new CustomerProfileResponse(false,null,"TRY");
+
+    }
 
 
 

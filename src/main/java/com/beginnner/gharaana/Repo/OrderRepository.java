@@ -14,6 +14,6 @@ public interface OrderRepository extends MongoRepository<Order, String> {
 
     List<Order> findByEmail(String email);
     Order deleteByOrderId(String orderId);
-
-    List<Order> findByLocationAndExpertiseAndOrderStatus(Location location, List<Expertise> expertise, OrderStatus orderStatus);
+   List<Order>findByExpert(String email);
+    List<Order> findByLocationAndExpertiseAndOrderStatus(Location location, Expertise expertise, OrderStatus orderStatus);
 }
