@@ -40,13 +40,13 @@ public class ExpertController {
     }
 
 
-    @PostMapping(path = "checkorders")
-    public CheckOrdersResponse checkOrderResponce(@RequestHeader("Authorization") String authorizationHeader,@RequestBody CheckOrdersRequest checkOrdersRequest) {
+    @GetMapping(path = "checkorders")
+    public CheckOrdersResponse checkOrderResponce(@RequestHeader("Authorization") String authorizationHeader) {
 
        String token=authorizationHeader.replace("Bearer ", "");
         Boolean verify = jwtUtil.isTokenValid(token);
         if (verify) {
-            return orderService.checkOrders(checkOrdersRequest,token);
+            return orderService.checkOrders(token);
         }
         return new CheckOrdersResponse("Invalid Token", null);
     }
@@ -71,5 +71,25 @@ public class ExpertController {
         }
         return new CompleteOrderResponse("Token Invalid", false);
     }
+    @GetMapping(path="myorders")
+    public MyOrderResponse myOrder(@RequestHeader("Authorization") String authorizationHeader){
+        String token=authorizationHeader.replace("Bearer ", "");
+        Boolean verify =jwtUtil.isTokenValid(token);
+        if(verify){
+            return orderService.myOrderAsExpert(token);
+        }
+        return new MyOrderResponse(false,"Invalid",null);
+    }
+   @GetMapping(path = "profile")
+    public ExpertProfileResponse expertProfile(@RequestHeader("Authorization") String authorizationHeader){
+       String token=authorizationHeader.replace("Bearer ", "");
+       Boolean verify =jwtUtil.isTokenValid(token);
+       if(verify){
+           return userService.expertView(token);
+       }
+       return new ExpertProfileResponse(false,null,"response");
+
+
+   }
 
 }

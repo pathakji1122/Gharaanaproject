@@ -5,11 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2f8ac0f-9b24-40b5-807f-ae71dc1daa67" name="Changes" comment="deploy0.1">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_jsonwebtoken_jjwt_0_11_2.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/PaymentController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/CustomerProfileResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/ExpertProfileResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_jsonwebtoken_jjwt_0_9_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gharaana.iml" beforeDir="false" afterPath="$PROJECT_DIR$/gharaana.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/CorsConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/CustomerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/ExpertController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/ExpertController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Entity/Expert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Entity/Expert.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Entity/Expertise.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Entity/Expertise.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/CheckOrdersRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/ExpertSignupRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/ExpertSignupRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Repo/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Repo/OrderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Repo/OtpRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Repo/OtpRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Controller/CorsConfig.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Controller/CustomerController.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Controller/ExpertController.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Controller/UserController.class" beforeDir="false" />
@@ -91,7 +107,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="release1" />
+        <entry key="$PROJECT_DIR$" value="Update1" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -153,8 +169,8 @@
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn clean" />
-      <command value="mvn clean install" />
       <command value="mvn package" />
+      <command value="mvn clean install" />
     </option>
   </component>
   <component name="RunManager" selected="Application.GharaanaApplication">
@@ -235,6 +251,8 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Docker.Release1.1" />
+        <item itemvalue="Application.UserService" />
         <item itemvalue="Docker.Release1.1" />
         <item itemvalue="Application.UserService" />
         <item itemvalue="Application.OrderRequestValidator" />
@@ -457,74 +475,6 @@
           <url>file://$PROJECT_DIR$/gharaana/src/main/java/com/beginnner/gharaana/Service/UserService.java</url>
           <line>23</line>
           <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/JwtUtil.java</url>
-          <line>41</line>
-          <option name="timeStamp" value="66" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/JwtUtil.java</url>
-          <line>43</line>
-          <option name="timeStamp" value="67" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/JwtUtil.java</url>
-          <line>42</line>
-          <option name="timeStamp" value="68" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/JwtUtil.java</url>
-          <line>45</line>
-          <option name="timeStamp" value="69" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/JwtUtil.java</url>
-          <line>44</line>
-          <option name="timeStamp" value="70" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/JwtUtil.java</url>
-          <line>49</line>
-          <option name="timeStamp" value="72" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/JwtUtil.java</url>
-          <line>50</line>
-          <option name="timeStamp" value="74" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/JwtUtil.java</url>
-          <line>51</line>
-          <option name="timeStamp" value="75" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/JwtUtil.java</url>
-          <line>54</line>
-          <option name="timeStamp" value="76" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/JwtUtil.java</url>
-          <line>55</line>
-          <option name="timeStamp" value="77" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/JwtUtil.java</url>
-          <line>40</line>
-          <properties class="com.beginnner.gharaana.Service.JwtUtil" method="extractUserEmail">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="65" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/JwtUtil.java</url>
-          <line>48</line>
-          <properties class="com.beginnner.gharaana.Service.JwtUtil" method="isTokenValid">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="71" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

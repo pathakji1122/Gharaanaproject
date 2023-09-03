@@ -97,7 +97,7 @@ public class UserService {
         if (locationVerify != null) {
             Expert expert =expertRepository.findOneByEmail(expertSignupRequest.email);
             if (expert == null) {
-                Expert newExpert = new Expert(expertSignupRequest.expertName, expertSignupRequest.email, expertSignupRequest.password, expertSignupRequest.phoneNo, expertSignupRequest.location, expertSignupRequest.expertise);
+                Expert newExpert = new Expert(expertSignupRequest.expertName, expertSignupRequest.email, expertSignupRequest.password, expertSignupRequest.phoneNo, expertSignupRequest.location,expertSignupRequest.expertise,0,0.0);
                 saveExpert(newExpert);
 
                 String response = "Welcome to Gharaana " + expertSignupRequest.expertName;
@@ -187,6 +187,33 @@ public class UserService {
             return false;
         }
         return true;
+    }
+    public RatingResponse rating(String token,RatingRequest ratingRequest){
+        String email=jwtUtil.extractUserEmail(token);
+        Order order=orderRepository.findByOrderId(ratingRequest.orderId);
+        if(email==order.getEmail()){
+            Expert expert=expertRepository.findOneByEmail(order.getExpert());
+            Double rate=(((expert.rating)*expert.orders)+ ratingRequest.ratingPoint)/(expert.orders+1);
+            expert.rating=rate;
+            expertRepository.save(expert);
+            return new RatingResponse("Thank You",true);
+        }
+        return new RatingResponse("Error",false);
+
+
+
+
+    }
+    public CustomerProfileResponse customerView(String token){
+        String email= jwtUtil.extractUserEmail(token);
+        Customer customer=customerRepository.findOneByEmail(email);
+        return new CustomerProfileResponse(true,customer,"Response");
+
+    }
+    public ExpertProfileResponse expertView(String token){
+        String email= jwtUtil.extractUserEmail(token);
+        Expert expert=expertRepository.findOneByEmail(email);
+        return new ExpertProfileResponse(true,expert,"Response");
     }
 
 
