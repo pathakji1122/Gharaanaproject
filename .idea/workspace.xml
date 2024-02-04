@@ -5,26 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2f8ac0f-9b24-40b5-807f-ae71dc1daa67" name="Changes" comment="deploy0.1">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/RateOrderRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/RateOrderResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/CustomerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/CustomerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/ExpertController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/ExpertController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/CorsConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/CustomerSignUpRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/CustomerSignUpRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/OrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Controller/CustomerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Controller/CustomerController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Controller/ExpertController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Controller/ExpertController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/CorsConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/CorsConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Service/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/beginnner/gharaana/Service/OrderService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/gharaana.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/gharaana.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/gharaana.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/gharaana.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
