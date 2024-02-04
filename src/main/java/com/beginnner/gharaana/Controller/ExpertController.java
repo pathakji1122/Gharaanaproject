@@ -4,11 +4,7 @@ import com.beginnner.gharaana.Object.*;
 import com.beginnner.gharaana.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
-
-
-
 @RestController
 @RequestMapping("expert")
 public class ExpertController {

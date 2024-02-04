@@ -5,11 +5,8 @@ import com.beginnner.gharaana.Service.*;
 import com.beginnner.gharaana.Validation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.IOException;
 import java.text.ParseException;
-
-
 @RestController
 @RequestMapping("customer")
 public class CustomerController {
@@ -26,7 +23,7 @@ public class CustomerController {
         return userService.registerCustomer(customerSignUpRequest);
     }
 
-    @DeleteMapping("delete")
+    @DeleteMapping(path = "delete")
     public DeleteCustomerResponse deleteCustomer( @RequestHeader("Authorization") String authorizationHeader,@RequestBody DeleteCustomerRequest deleteCustomerRequest) {
         String token = authorizationHeader.replace("Bearer ", "");
         Boolean verified = jwtUtil.isTokenValid(token);
@@ -129,6 +126,12 @@ public class CustomerController {
         }
         return new CustomerProfileResponse(false,null,"TRY");
 
+    }
+    @PostMapping(path="updateorder")
+    public OrderResponse updateOrder(@RequestHeader("Authorization") String authorizationHeader,OrderRequest orderRequest){
+        String token = authorizationHeader.replace("Bearer ", "");
+        Boolean verified=jwtUtil.isTokenValid(token);
+        return new OrderResponse(false,null,"hi");
     }
 
 
