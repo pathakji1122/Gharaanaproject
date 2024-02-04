@@ -9,7 +9,7 @@ public class CustomerSignUpRequest {
     public String password;
     public String customerName;
     public String phoneNo;
-   public Location location;
+    public Location location;
 
 
 }
