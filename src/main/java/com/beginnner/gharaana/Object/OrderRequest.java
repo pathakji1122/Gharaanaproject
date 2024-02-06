@@ -6,4 +6,5 @@ public class OrderRequest {
     public Expertise expertise;
     public Integer price;
     public String placedFor;
+    public String placedForTime;
 }
