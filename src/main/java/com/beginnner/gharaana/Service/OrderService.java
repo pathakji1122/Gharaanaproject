@@ -162,12 +162,13 @@ public class OrderService {
 
 
     public Times placingOrderTimes(OrderRequest orderRequest) throws ParseException {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:dd:M:yyyy");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:dd:MM:yyyy");
         LocalDateTime date = LocalDateTime.now();
         String placedAt = dtf.format(date);
 
         LocalDateTime datePlacedFor = LocalDateTime.parse(orderRequest.placedFor, dtf);
         String placedFor = dtf.format(datePlacedFor);
+        String placedFor=
 
         Times times = new Times(placedAt, placedFor, null, null, null);
         return times;
