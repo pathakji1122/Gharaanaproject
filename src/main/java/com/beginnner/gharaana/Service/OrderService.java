@@ -165,6 +165,7 @@ public class OrderService {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:dd:MM:yyyy");
         LocalDateTime date = LocalDateTime.now();
         String placedAt = dtf.format(date);
+
         String placedFor=orderRequest.placedForTime+":"+orderRequest.placedForDate;
         Times times = new Times(placedAt, placedFor, null, null, null);
         return times;
