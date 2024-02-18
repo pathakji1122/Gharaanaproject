@@ -166,10 +166,7 @@ public class OrderService {
         LocalDateTime date = LocalDateTime.now();
         String placedAt = dtf.format(date);
 
-        LocalDateTime datePlacedFor = LocalDateTime.parse(orderRequest.placedFor, dtf);
-        String placedFor = dtf.format(datePlacedFor);
-        String placedFor=
-
+        String placedFor=orderRequest.placedForTime+":"+orderRequest.placedForDate;
         Times times = new Times(placedAt, placedFor, null, null, null);
         return times;
     }

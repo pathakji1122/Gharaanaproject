@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f2f8ac0f-9b24-40b5-807f-ae71dc1daa67" name="Changes" comment="deploy0.1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/OrderRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Object/OrderRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/beginnner/gharaana/Service/OrderService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
