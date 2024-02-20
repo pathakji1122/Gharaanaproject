@@ -3,6 +3,7 @@ com\beginnner\gharaana\Object\DeleteCustomerRequest.class
 com\beginnner\gharaana\Object\ExpertProfileResponse.class
 com\beginnner\gharaana\Object\SignUpResponse.class
 com\beginnner\gharaana\Object\CancelOrderResponse.class
+com\beginnner\gharaana\Object\RateOrderRequest.class
 com\beginnner\gharaana\Entity\OrderStatus.class
 com\beginnner\gharaana\Object\CustomerSignUpRequest.class
 com\beginnner\gharaana\Object\OrderStatusResponse.class
@@ -24,6 +25,7 @@ com\beginnner\gharaana\Entity\AgentInfo.class
 com\beginnner\gharaana\Object\LoginRequest.class
 com\beginnner\gharaana\Object\CompleteOrderRequest.class
 com\beginnner\gharaana\Entity\Times.class
+com\beginnner\gharaana\Object\RateOrderResponse.class
 com\beginnner\gharaana\Service\OrderService.class
 com\beginnner\gharaana\Object\CustomerProfileResponse.class
 com\beginnner\gharaana\Object\MyOrderResponse.class

@@ -3,16 +3,6 @@ package com.beginnner.gharaana.Validation;
 import com.beginnner.gharaana.Object.OrderRequest;
 
 public class OrderRequestValidator {
-    public static String validate(OrderRequest orderRequest) {
-        String date = orderRequest.placedFor;
-        String error = validateDate(date);
-        if (error != null) {
-            return error;
-        }
-
-        return null;
-
-    }
 
     public static String validateDate(String date) {
         if (date == null || date.length() == 0) {
