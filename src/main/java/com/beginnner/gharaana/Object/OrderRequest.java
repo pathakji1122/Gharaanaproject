@@ -7,8 +7,5 @@ public class OrderRequest {
     public Integer price;
 
     public String placedForDate;
-
-    public String placedFor;
-
     public String placedForTime;
 }

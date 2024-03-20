@@ -23,7 +23,7 @@ public enum Expertise {
     PAINTING,
     CARPENTER,
     PLUMBER,
-    YOGAINSTRUCTOR   ;
+    YOGAINSTRUCTOR;
 
 
     @JsonCreator

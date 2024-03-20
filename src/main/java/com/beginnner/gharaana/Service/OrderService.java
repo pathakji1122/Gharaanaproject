@@ -12,7 +12,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.String.valueOf;
+import java.util.Random;
+
 
 @org.springframework.stereotype.Service
 public class OrderService {
@@ -31,11 +32,29 @@ public class OrderService {
     ExpertRepository expertRepository;
 
 
-    public String createOrderId(OrderRequest orderRequest) {
-        long id = orderRepository.count() + 1;
-        return String.valueOf(id);
 
+    public String createOrderId(OrderRequest orderRequest) {
+        String prefix = "#GHINBN";
+        String orderId;
+        String randomNumber = generateRandomNumber();
+
+        // Concatenate prefix and random number to form order ID
+        orderId = prefix + randomNumber;
+
+        // Check if the order ID already exists in the repository, if so, regenerate the random number
+        while (orderRepository.findByOrderId(orderId)!=null) {
+            randomNumber = generateRandomNumber();
+            orderId = prefix + randomNumber;
+        }
+        return orderId;
     }
+
+    private String generateRandomNumber() {
+        Random random = new Random();
+        int randomNumber = random.nextInt(90000000) + 10000000; // Generate random number between 10000000 and 99999999
+        return String.valueOf(randomNumber);
+    }
+
 
     public void saveOrder(OrderRequest orderRequest, String orderId, String token) throws ParseException {
         String email = jwtUtil.extractUserEmail(token);
@@ -43,7 +62,7 @@ public class OrderService {
         OrderStatus orderStatus = OrderStatus.NOT_ACCEPTED;
         Times times = placingOrderTimes(orderRequest);
 
-        Order order = new Order.OrderBuilder(orderId).setOrderStatus(orderStatus).setLocation(customer.location).setPrice(orderRequest.price).setTimes(times).setExpertise(orderRequest.expertise).setEmail(customer.email).setName(customer.name).build();
+        Order order = new Order.OrderBuilder(orderId).setOrderStatus(orderStatus).setLocation(customer.location).setPrice(orderRequest.price).setTimes(times).setExpertise(orderRequest.expertise).setEmail(customer.email).setName(customer.name).setPayment(false).build();
         orderRepository.save(order);
     }
 

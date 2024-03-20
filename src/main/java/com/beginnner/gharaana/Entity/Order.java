@@ -16,8 +16,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
         private OrderStatus orderStatus;
         private String expert;
         private Times times;
+        private Boolean payment;
+        private String paymentId;
 
-        public Order(String email, String name, Location location, Expertise expertise, Integer price, OrderStatus orderStatus, String orderId, String expert, Times times) {
+
+        public Order(String email, String name, Location location, Expertise expertise, Integer price, OrderStatus orderStatus, String orderId, String expert, Times times, Boolean payment, String paymentId) {
             this.email = email;
             this.name = name;
             this.location = location;
@@ -27,6 +30,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
             this.orderId = orderId;
             this.expert = expert;
             this.times = times;
+            this.payment= payment;
+            this.paymentId=paymentId;
         }
 
 
@@ -37,7 +42,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
         public void setEmail(String email) {
             this.email = email;
         }
+        public String getPaymentId() {
+            return paymentId;
+        }
 
+        public void setPaymentId(String paymentId) {
+            this.paymentId = paymentId;
+        }
+        public Boolean getPayment() {
+            return payment;
+        }
+
+        public void setPayment(Boolean payment) {
+            this.payment = payment;
+        }
         public String getName() {
             return name;
         }
@@ -106,10 +124,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
             private Expertise expertise;
             private Integer price;
             private OrderStatus orderStatus;
-            private String gharaanaAgent;
+            private String expert;
             private Times times;
 
-            public OrderBuilder(String email, String name, Location location, Expertise expertise, Integer price, OrderStatus orderStatus, String orderId, String gharaanaAgent, Times times) {
+            private Boolean payment;
+            private String paymentId;
+            public OrderBuilder(String email, String name, Location location, Expertise expertise, Integer price, OrderStatus orderStatus, String orderId, String expert, Times times,Boolean payment,String paymentId) {
                 this.email = email;
                 this.name = name;
                 this.location = location;
@@ -117,8 +137,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
                 this.price = price;
                 this.orderStatus = orderStatus;
                 this.orderId = orderId;
-                this.gharaanaAgent = gharaanaAgent;
+                this.expert = expert;
                 this.times = times;
+                this.payment=payment;
+                this.paymentId=paymentId;
 
             }
 
@@ -158,8 +180,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
             }
 
 
-            public OrderBuilder setGharaanaAgent(String gharaanaAgent) {
-                this.gharaanaAgent = gharaanaAgent;
+            public OrderBuilder setExpert(String expert) {
+                this.expert = expert;
+                return this;
+            }
+            public OrderBuilder setPayment(Boolean payment) {
+                this.payment = payment;
+                return this;
+            }
+            public OrderBuilder setPaymentId(String paymentId) {
+                this.paymentId = paymentId;
                 return this;
             }
 
@@ -169,7 +199,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
             }
 
             public com.beginnner.gharaana.Entity.Order build() {
-                return new com.beginnner.gharaana.Entity.Order(email, name, location, expertise, price, orderStatus, orderId, gharaanaAgent, times);
+                return new com.beginnner.gharaana.Entity.Order(email, name, location, expertise, price, orderStatus, orderId, expert, times,payment,paymentId);
             }
         }
     }
